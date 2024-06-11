@@ -35,9 +35,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+           "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css",
+              "src/assets/css/lib.css",
+              "src/assets/css/style.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+                "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+              "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -99,6 +107,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -106,5 +115,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "a719d0e8-587d-443f-9db8-e6e0e254defd"
   }
 }
