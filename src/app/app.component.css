@@ -1,1 +1,27 @@
- 
+.zm-notes-list {
+    margin-top: 10px;
+  }
+  
+  .zm-notes-item {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .note-text {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 10px;
+  }
+  .invalid-field {
+    border: 1px solid red;
+  }

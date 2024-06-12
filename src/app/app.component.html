@@ -166,52 +166,58 @@
 
           <div class="modal-header">
             <h4 class="modal-title text-left" id="myModalLabel2">Add Degree</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close"  data-dismiss="modal" aria-label="Close" (click)="resetFormValues()">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
 
           <div class="modal-body">
             <form>
               <div class="form-row row">
                 <div class="form-group">
-                  <label>Choose National or International:</label> 
-                  <input type="radio" id="national" name="payorType" value="1" (click)="updateValue(1)"> National<br>
-                  <input type="radio" id="international" name="payorType" value="2" (click)="updateValue(2)"> International<br>
-              </div>
-              <div class="form-group col-md-4">
-                <label>Select Degree</label>
-                <select class="form-control zm-select" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}">
-                  <option disabled selected value="">Select Degree</option>
-                  <option *ngFor="let con of config" [value]="con.value">{{ con.value }}</option>
-                </select>
-              </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label>Start Date</label>
-                  <input type="text" class="form-control" [(ngModel)]="formData.startDate" name="startDate">
+                    <label>Choose National or International:</label> 
+                    <input type="radio" id="national" name="payorType" value="1" (click)="updateValue(1)"  #nationalRadioButton> National<br>
+                    <input type="radio" id="international" name="payorType" value="2" (click)="updateValue(2)" #internationalRadioButton> International<br>
                 </div>
                 <div class="form-group col-md-4">
-                  <label>End Date</label>
-                  <input type="text" class="form-control" [(ngModel)]="formData.endDate" name="endDate">
+                    <label>Select Degree</label>
+                    <select class="form-control zm-select" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" [disabled]="!isNationalOrInternationalSelected" (click)="onDegreeSelected()">
+                        <option disabled selected value="">Select Degree</option>
+                        <option *ngFor="let con of config" [value]="con.value">{{ con.value }}</option>
+                    </select>
                 </div>
-              </div>
-              <div class="form-row">
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-4">
-                  <label>Issue Date</label>
-                  <input type="text" class="form-control" [(ngModel)]="formData.issueDate" name="issueDate">
+                    <label>Start Date</label>
+                    <input type="text" class="form-control" [(ngModel)]="formDataDegree.startDate" name="startDate" [disabled]="!isDegreeSelected">
                 </div>
-              </div>
+                
+                <div class="form-group col-md-4">
+                    <label>End Date</label>
+                    <input type="text" class="form-control" [(ngModel)]="formDataDegree.endDate" name="endDate" [disabled]="!isDegreeSelected">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label>Issue Date</label>
+                    <input type="text" class="form-control" [(ngModel)]="formDataDegree.issueDate" name="issueDate" [disabled]="!isDegreeSelected">
+                </div>
+            </div>
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <div class="zm-datepicker-display">
                     <label>Created Date</label>
-                    <div class="zm-datepicker-display-content"><input type="text" name="" value="01/18/2022" readonly> by puser</div>
+                    <div class="zm-datepicker-display-content">
+                      <input type="text" name="" [value]="todayDate" readonly> by {{ user?.userName }}
+                    </div>
                   </div>
                 </div>
                 <div class="form-group col-md-6">
                   <div class="zm-datepicker-display">
                     <label>Last Updated Date</label>
-                    <div class="zm-datepicker-display-content"><input type="text" name="" value="01/18/2022" readonly> by juser</div>
+                    <div class="zm-datepicker-display-content">
+                      <input type="text" name="" [value]="todayDate" readonly> by {{ user?.userName }}</div>
                   </div>
                 </div>
               </div>
@@ -221,38 +227,25 @@
               <div class="form-group col-md-12 zm-notes">
                 <label>Note</label>
                 <div class="zm-notes-list">
-                  <div class="zm-notes-item">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <span class="more">Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.</span> 
-                      <em>version 1.2</em>
-                    </a>
-                    <a href="#" class="zm-note-edit"><i class="mdi mdi-pencil"></i></a>
-                    <div class="dropdown-menu">
-                      <div class="zm-note-detail">
-                        <h3>version 1.2</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <span>Updated date: October 22, 2022 by Joe C.</span>
-                      </div>
-                      <div class="zm-note-detail">
-                        <h3>version 1.2</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <span>Updated date: October 22, 2022 by Joe C.</span>
-                      </div>
+                  <div *ngFor="let note of notes; let i = index" class="zm-notes-item">
+                    <div class="note-header">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span class="note-text">{{ note.note }}</span>
+                      </a>
+                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i)">Delete</button>
                     </div>
-                  </div>
-                  <div class="zm-notes-item">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="more">Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.Provider should be registered in next 2 days.</span> </a><a href="#" class="zm-note-edit"><i class="mdi mdi-pencil"></i></a>
                     <div class="dropdown-menu">
                       <div class="zm-note-detail">
-                        <h3>version 1.2</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <span>Updated date: October 22, 2022 by Joe C.</span>
+                        <h3>{{ note.note }}</h3>
                       </div>
                     </div>
                   </div>
                 </div>
-                <textarea placeholder="Add new note"></textarea>
-                <button class="btn" (click)="getVal()" >Save</button>
+           
+             
+                <textarea placeholder="Add new note" [(ngModel)]="newNote"></textarea>
+                <button class="btn"  (click)="saveNote()">Save</button>
+               
               </div>
             </div>
 
@@ -261,41 +254,39 @@
                 <div class="col-md-5">
                   <div class="zm-popup-item">
                     <label>Select Document</label>
-                    <select class="form-control zm-select" [(ngModel)]="selectedDoc" [ngModelOptions]="{standalone: true}">
-                      <option disabled selected value="">Select Document</option>
-                      <option *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">{{ doc.value }}</option>
+                    <select class="form-control zm-select" [(ngModel)]="selectedDoc"  (click)="onDocSelected()" [ngModelOptions]="{standalone: true}" >
+                      <option   disabled selected value="">Select Document</option>
+                      <option  *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">{{ doc.value }}</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-7">
                   <div class="zm-popup-item">
                     <label>Document Name</label>
-                    <input type="text" class="form-control" id="" placeholder="">
+                    <input type="text" class="form-control" id="documentName" placeholder="" [(ngModel)]="documentName" [disabled]="!isDocListSelected">
                   </div>
-                  
                 </div>
                 <div class="col-md-7">
                   <div class="zm-popup-item">
                     <label>Receive Date</label>
-                    <input type="text" class="form-control" id="" placeholder="">
+                    <input type="text" class="form-control" id="receiveDate" placeholder="" [(ngModel)]="receiveDate" [disabled]="!isDocListSelected">
                   </div>
-                  
                 </div>
-                
                  <div class="col-md-7">
                   <div class="zm-popup-item">
                     <label>Upload Document</label>
-                    <input type="file" class="form-control" id="" placeholder="">
+                    <input type="file" class="form-control" id="" placeholder=""  (change)="onFileSelected($event)" [disabled]="!isDocListSelected">
                   </div>
                 </div>
                 
               </div>
             </div>
+          
           </div>
-
+ 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="mdi mdi-plus"></i>Save</button>
-            <button type="button" class="btn btn-primary">Cancel</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="isFormInvalid()"   (click)="saveDocument()"><i class="mdi mdi-plus" ></i>Save</button>
+            <button type="button" class="btn btn-primary"   data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
           </div>
 
         </div><!-- modal-content -->
