@@ -25,3 +25,22 @@
   .invalid-field {
     border: 1px solid red;
   }
+  .morecontent span {
+    display: none;
+}
+.morelink {
+    display: block;
+}
+.more {
+  word-break: break-all;
+  width: 80%;
+  display: block;
+  white-space: normal;
+  line-height: 1.5em;
+}
+.more .morelink {
+  color: RGB(48, 134, 236);
+  font-weight: 600;
+  font-size: 12px;
+  display: inline-block;
+}

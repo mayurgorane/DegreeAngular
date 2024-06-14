@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
  
 import { Observable, catchError, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../Models/User';
 import { Degree } from '../Models/Degree';
 import { AddDegree } from '../Models/AddDegree';
@@ -56,6 +56,38 @@ export class DegreeServiceService {
     return this.http.post<any>(`http://192.168.21.39:9090/degreeId/${degreeId}/notes`,notes);
     
    }
+
+   getDocumentByDegreeId(degreeId: number): Observable<any> {
+    return this.http.get<any>(`http://192.168.21.39:9090/api/documents/degree/${degreeId}`);
+      
+  }
+
+  updateDegree(id: number, masterId: number, value: string, updatedDegree: any): Observable<any> {
+    const url = `http://192.168.21.39:9090/degree/${id}/masterId/${masterId}/value/${value}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put<any>(url, updatedDegree, { headers });
+  }
+
+  updateDocument(degreeId: number,formData:any): Observable<any> {
  
+
+    return this.http.put<any>(`http://192.168.21.39:9090/api/documents/${degreeId}/update`, formData)
+      .pipe( 
+        catchError(error => {
+          console.error('Error updating document:', error);
+          return throwError(error);
+        })
+      );
+}
+
+getNotes(degreeId: number): Observable<any[]> {
+  return this.http.get<any[]>(`http://192.168.21.39:9090/degreeId/${degreeId}/notes/highestVersion`);
+    
+}
+
+deletePostUpdateNotes(degreeId: number,data: any):Observable<any>{
+  return this.http.post<any>(`http://192.168.21.39:9090/degreeId/${degreeId}/notes`,data);
+  
+ }
 
 }

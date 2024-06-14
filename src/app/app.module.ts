@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+
+ 
+import { MatNativeDateModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  
 
 @NgModule({
@@ -27,6 +31,10 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MatFormFieldModule,
    BrowserModule,
    FormsModule,
+
+   BrowserAnimationsModule,
+    MatNativeDateModule,
+   ReactiveFormsModule
  
   
     

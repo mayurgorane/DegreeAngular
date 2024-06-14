@@ -17,31 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css">
   </head>
 
-  <body>
-
-<style type="text/css">
-  .morecontent span {
-      display: none;
-  }
-  .morelink {
-      display: block;
-  }
-  .more {
-    word-break: break-all;
-    width: 80%;
-    display: block;
-    white-space: normal;
-    line-height: 1.5em;
-  }
-  .more .morelink {
-    color: RGB(48, 134, 236);
-    font-weight: 600;
-    font-size: 12px;
-    display: inline-block;
-  }
-  
-</style>
-
+  <body> 
 <!--Nav Bar -->
 <app-navbar></app-navbar>
 
@@ -84,13 +60,13 @@
            
           </div>
         </div>
-          <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal">Add Degree</a></div>
+          <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal" (click)="resetFormValues()">Add Degree</a></div>
           <div *ngFor="let degree of degrees">
         <div class="zm-provider-display mt-4" >
           <div class="zm-provider-display-heading justify-content-between align-items-center">
             <h2>Degree Information</h2>
             <div class="buttons-group">
-              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal"><i class="mdi mdi-pencil"></i>Edit</button>
+              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal" (click)="update(degree)"><i class="mdi mdi-pencil" ></i>Edit</button>
               <button type="button" class="btn btn-secondary remove" data-dismiss="modal" (click)="deleteDegreeById(degree.degreeId)"><i class="mdi mdi-delete" ></i>Remove</button>
             </div>
           </div>
@@ -165,13 +141,14 @@
         <div class="modal-content">
 
           <div class="modal-header">
-            <h4 class="modal-title text-left" id="myModalLabel2">Add Degree</h4>
+            <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="!updateDegree" >Add Degree</h4>
+            <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="updateDegree">Update Degree</h4>
             <button type="button" class="close"  data-dismiss="modal" aria-label="Close" (click)="resetFormValues()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
           <div class="modal-body">
+       
             <form>
               <div class="form-row row">
                 <div class="form-group">
@@ -227,12 +204,14 @@
               <div class="form-group col-md-12 zm-notes">
                 <label>Note</label>
                 <div class="zm-notes-list">
-                  <div *ngFor="let note of notes; let i = index" class="zm-notes-item">
+                  <div *ngFor="let note of getnotes; let i = index" class="zm-notes-item">
                     <div class="note-header">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="note-text">{{ note.note }}</span>
+                        <span class="note-text" *ngIf="note.version">{{note.groupId}}.{{note.version}}</span>
                       </a>
-                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i)">Delete</button>
+                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button > 
+                      <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
                     </div>
                     <div class="dropdown-menu">
                       <div class="zm-note-detail">
@@ -241,10 +220,8 @@
                     </div>
                   </div>
                 </div>
-           
-             
-                <textarea placeholder="Add new note" [(ngModel)]="newNote"></textarea>
-                <button class="btn"  (click)="saveNote()">Save</button>
+                 <textarea placeholder="Add new note"  (input)="checkNote()" [(ngModel)]="newNote"></textarea>
+                <button class="btn" [disabled]="!isNoteThere "  (click)="saveNote()">Save</button>
                
               </div>
             </div>
@@ -278,14 +255,20 @@
                     <input type="file" class="form-control" id="" placeholder=""  (change)="onFileSelected($event)" [disabled]="!isDocListSelected">
                   </div>
                 </div>
-                
+           
+                <div class="col-md-7">
+                  <button class="btn btn-sm btn-secondary py-0 px-1" *ngIf="updateDegree" (click)="downloadImage()">
+                    Download Image
+                  </button>
+                </div>
               </div>
             </div>
           
           </div>
  
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="isFormInvalid()"   (click)="saveDocument()"><i class="mdi mdi-plus" ></i>Save</button>
+            <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close" [disabled]="isFormInvalid() " *ngIf="!updateDegree"  (click)="saveDocument()"><i class="mdi mdi-plus" ></i>Save</button>
+            <button type="button" class="btn btn-secondary close" data-dismiss="modal"  aria-label="Close" [disabled]="isFormInvalid()" *ngIf="updateDegree" (click)="updateDoc()"><i class="mdi mdi-plus"></i>Update</button>
             <button type="button" class="btn btn-primary"   data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
           </div>
 
