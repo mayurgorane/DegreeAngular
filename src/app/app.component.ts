@@ -320,9 +320,11 @@ export class AppComponent {
     if (degree.masterType === 'National') {
       this.selectedMasterType = 1;
       this.nationalRadioButton.nativeElement.checked = true;
+       
     } else {
       this.selectedMasterType = 2;
       this.internationalRadioButton.nativeElement.checked = true;
+        
     }
 
     this.degreeService.getDocumentByDegreeId(degree.degreeId).subscribe((temp) => {
@@ -352,6 +354,7 @@ export class AppComponent {
   finalArray: any[] = [];
 
   updateDoc() {
+  
     const temp1 = this.load;
 
     this.degreeService.updateDegree(this.degreeId, this.selectedMasterType, this.selectedStatus, this.formDataDegree)
