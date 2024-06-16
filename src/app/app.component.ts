@@ -154,7 +154,7 @@ export class AppComponent {
 
       this.getDegreeAndUser();
 
-      const notesResponse = await this.degreeService.postNotes(this.notes, this.currentDegree.degreeId).toPromise();
+      const notesResponse = await this.degreeService.postNotes(this.saveNotes, this.currentDegree.degreeId).toPromise();
       console.log('Notes saved successfully:', notesResponse);
 
       this.resetFormValues();
@@ -380,15 +380,17 @@ export class AppComponent {
     document.getElementById('degreeModal').setAttribute('display', 'none');
 
     this.finalArray = [...this.saveNotes, ...this.notes,...this.editedNotes];
-
+     
     this.degreeService.deletePostUpdateNotes(this.degreeId, this.finalArray).subscribe((temp) => {
       console.log(temp);
       this.finalArray = null;
 
       this.saveNotes = [];
       this.notes = [];
+      this.editedNotes = []; // Clear editedNotes after saving
       this.getDegreeAndUser();
     });
+   
   }
 
   saveNotes: any[] = [];
@@ -430,6 +432,7 @@ export class AppComponent {
   editedNote: string;
   selectedEditedNote: any;
   selectedEditedNoteIndex:number;
+  
   editNote(i: number) {
     this.isEditMode = true;
     this.selectedEditedNote = this.getnotes[i];
@@ -440,7 +443,9 @@ export class AppComponent {
   saveEditedNote() {
     this.editedNote = this.newNote;
     this.getnotes[this.selectedEditedNoteIndex].note = this.editedNote.trim();
+    this.editedNotes.push({ note: this.editedNote.trim(),groupId: this.selectedEditedNote.groupId});
     this.cancelEditedNote();
+     
   }
 
   cancelEditedNote() {
@@ -448,6 +453,7 @@ export class AppComponent {
     this.newNote = '';
     this.editedNote = '';
     this.selectedEditedNote = null;
+    this.selectedEditedNoteIndex = null;
   }
 
 

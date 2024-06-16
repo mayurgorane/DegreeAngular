@@ -215,12 +215,11 @@
               </div>
             </div>
           </form>
-
-
           <div class="form-row row">
             <div class="form-group col-md-12 zm-notes">
               <label>Note</label>
               <div class="zm-notes-list">
+
                 <div *ngFor="let note of getnotes; let i = index" class="zm-notes-item">
                   <div class="note-header">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -228,9 +227,11 @@
                       <span class="note-text" *ngIf="note.version">{{note.groupId}}.{{note.version}}</span>
                     </a>
                     <div class="button-group">
-                                          <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button>
-                    <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
-                  </div>
+                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button>
+                      <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
+                    </div>
+
+
 
                   </div>
                   <div class="dropdown-menu">
@@ -240,11 +241,14 @@
                   </div>
                 </div>
               </div>
+
               <textarea placeholder="Add new note" (input)="checkNote()" [(ngModel)]="newNote"></textarea>
               <div class="button-group">
-              <button class="btn"  *ngIf="!isEditMode" [disabled]="!isNoteThere " (click)="saveNote()">Add Note</button>
-              <button class="btn" *ngIf="isEditMode" [disabled]="!isNoteThere" (click)="saveEditedNote()">Edit</button>
-               <button class="btn" *ngIf="isEditMode" (click)="cancelEditedNote()">Cancel</button>
+                <button class="btn" *ngIf="!isEditMode" [disabled]="!isNoteThere " (click)="saveNote()">Add
+                  Note</button>
+                <button class="btn" *ngIf="isEditMode" [disabled]="!isNoteThere"
+                  (click)="saveEditedNote()">Edit</button>
+                <button class="btn" *ngIf="isEditMode" (click)="cancelEditedNote()">Cancel</button>
               </div>
 
             </div>
