@@ -11,7 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-
+import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule for icons
  
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,18 +23,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavbarComponent 
   ],
   imports: [
+    
+  
     BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
+    BrowserAnimationsModule,
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,
+    MatIconModule,
+
+    HttpClientModule,
    BrowserModule,
    FormsModule,
 
    BrowserAnimationsModule,
     MatNativeDateModule,
-   ReactiveFormsModule
+   ReactiveFormsModule,
+ 
  
   
     

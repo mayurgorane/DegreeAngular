@@ -39,7 +39,9 @@
               "src/styles.css",
            "node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css",
               "src/assets/css/lib.css",
-              "src/assets/css/style.css"
+              "src/assets/css/style.css",
+              
+ "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

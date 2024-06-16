@@ -1,76 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="favicon.png">
 
-    <title>Z Mark</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
-    <link href="../assets/css/lib.css" rel="stylesheet">
-    <link href="../assets/css/style.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="favicon.png">
 
-  <body> 
-<!--Nav Bar -->
-<app-navbar></app-navbar>
+  <title>Z Mark</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
+    rel="stylesheet" />
+  <link href="../assets/css/lib.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
 
-   <!--=========================================
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css">
+</head>
+
+<body>
+  <!--Nav Bar -->
+  <app-navbar></app-navbar>
+
+  <!--=========================================
     =            Home middle section            =
     ==========================================-->
   <section class="zm-provider-middle" style="min-height: 500px;">
-      <div class="zm-prov-sidebar">
-        <a href="#" class="zm-prov-sidebar-back"> Back</a>
-        <div class="zm-provmenu-container">
-         
-          <a class="zm-sidemenu-collapser" data-toggle="collapse" href="#proffessional" role="button" aria-expanded="false" aria-controls="proffessional">Degree<i class="mdi mdi-chevron-down"></i></a>
-          <div class="collapse" id="proffessional">
-            <ul>
-              <li class="active"><a href="#">Degree</a></li>
-              <li><a href="#">Board Certification</a></li>
-              <li><a href="#">License</a></li>
-              <li><a href="#">Training</a></li>
-              <li><a href="#">Clinical Experience</a></li>
-              <li><a href="#">Speciality</a></li>
-              <li><a href="#">Practice Location Info</a></li>
-              <li><a href="#">Medicare</a></li>
-              <li><a href="#">Medicaid</a></li>
-            </ul>
-          </div>
-        
-          <div class="collapse show" id="insurance">
-            <ul>
-              <li class="active"><a href="#">Degree Information</a></li>
-            </ul>
-          </div>
+    <div class="zm-prov-sidebar">
+      <a href="#" class="zm-prov-sidebar-back"> Back</a>
+      <div class="zm-provmenu-container">
+
+        <a class="zm-sidemenu-collapser" data-toggle="collapse" href="#proffessional" role="button"
+          aria-expanded="false" aria-controls="proffessional">Degree<i class="mdi mdi-chevron-down"></i></a>
+        <div class="collapse" id="proffessional">
+          <ul>
+            <li class="active"><a href="#">Degree</a></li>
+            <li><a href="#">Board Certification</a></li>
+            <li><a href="#">License</a></li>
+            <li><a href="#">Training</a></li>
+            <li><a href="#">Clinical Experience</a></li>
+            <li><a href="#">Speciality</a></li>
+            <li><a href="#">Practice Location Info</a></li>
+            <li><a href="#">Medicare</a></li>
+            <li><a href="#">Medicaid</a></li>
+          </ul>
+        </div>
+
+        <div class="collapse show" id="insurance">
+          <ul>
+            <li class="active"><a href="#">Degree Information</a></li>
+          </ul>
         </div>
       </div>
+    </div>
 
-      <div class="zm-prov-middle">
-        <div class="zm-prov-topbar">
-          <img src="../assets/images/userIcon.png" alt="User" >
-          <div class="zm-prov-topbar-content">
-            <h2>{{ user?.userName }}</h2>
-           
-          </div>
+    <div class="zm-prov-middle">
+      <div class="zm-prov-topbar">
+        <img src="../assets/images/userIcon.png" alt="User">
+        <div class="zm-prov-topbar-content">
+          <h2>{{ user?.userName }}</h2>
+
         </div>
-          <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal" (click)="resetFormValues()">Add Degree</a></div>
-          <div *ngFor="let degree of degrees">
-        <div class="zm-provider-display mt-4" >
+      </div>
+      <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal"
+          (click)="resetFormValues()">Add Degree</a></div>
+      <div *ngFor="let degree of degrees">
+        <div class="zm-provider-display mt-4">
           <div class="zm-provider-display-heading justify-content-between align-items-center">
             <h2>Degree Information</h2>
             <div class="buttons-group">
-              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal" (click)="update(degree)"><i class="mdi mdi-pencil" ></i>Edit</button>
-              <button type="button" class="btn btn-secondary remove" data-dismiss="modal" (click)="deleteDegreeById(degree.degreeId)"><i class="mdi mdi-delete" ></i>Remove</button>
+              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal"
+                (click)="update(degree)"><i class="mdi mdi-pencil"></i>Edit</button>
+              <button type="button" class="btn btn-secondary remove" data-dismiss="modal"
+                (click)="deleteDegreeById(degree.degreeId)"><i class="mdi mdi-delete"></i>Remove</button>
             </div>
           </div>
-          
+
           <div class="zm-provider-display-body">
             <div class="row">
               <div class="col-xl-3 col-sm-6">
@@ -122,262 +128,291 @@
                   </p>
                 </div>
               </div>
-              
-              </div>
-              
-              </div>
+
             </div>
-            
-             
+
           </div>
         </div>
-  
-      
-    </section>
 
-    <!-- Modal -->
-    <div class="modal right fade" id="degreeModal" tabindex="-1" role="dialog" aria-labelledby="degreeModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
 
-          <div class="modal-header">
-            <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="!updateDegree" >Add Degree</h4>
-            <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="updateDegree">Update Degree</h4>
-            <button type="button" class="close"  data-dismiss="modal" aria-label="Close" (click)="resetFormValues()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-       
-            <form>
-              <div class="form-row row">
-                <div class="form-group">
-                    <label>Choose National or International:</label> 
-                    <input type="radio" id="national" name="payorType" value="1" (click)="updateValue(1)"  #nationalRadioButton> National<br>
-                    <input type="radio" id="international" name="payorType" value="2" (click)="updateValue(2)" #internationalRadioButton> International<br>
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Select Degree</label>
-                    <select class="form-control zm-select" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" [disabled]="!isNationalOrInternationalSelected" (click)="onDegreeSelected()">
-                        <option disabled selected value="">Select Degree</option>
-                        <option *ngFor="let con of config" [value]="con.value">{{ con.value }}</option>
-                    </select>
-                </div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- Modal -->
+  <div class="modal right fade" id="degreeModal" tabindex="-1" role="dialog" aria-labelledby="degreeModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="!updateDegree">Add Degree</h4>
+          <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="updateDegree">Update Degree</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetFormValues()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Choose National or International:</label>
+                <input type="radio" id="national" name="payorType" value="1" (click)="updateValue(1)"
+                  #nationalRadioButton> National<br>
+                <input type="radio" id="international" name="payorType" value="2" (click)="updateValue(2)"
+                  #internationalRadioButton> International<br>
+              </div>
+              <div class="form-group col-md-4">
+                <label>Select Degree</label>
+                <select class="form-control zm-select" [(ngModel)]="selectedStatus" name="selectedStatus"
+                  [disabled]="!isNationalOrInternationalSelected" (change)="onDegreeSelected()">
+                  <option disabled selected value="">Select Degree</option>
+                  <option *ngFor="let con of config" [value]="con.value">{{ con.value }}</option>
+                </select>
+              </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label>Start Date</label>
-                    <input type="text" class="form-control" [(ngModel)]="formDataDegree.startDate" name="startDate" [disabled]="!isDegreeSelected">
+              <div class="form-group col-md-4">
+                <label>Start Date</label>
+                <input type="date" class="form-control" [(ngModel)]="formDataDegree.startDate" name="startDate"
+                  (change)="validateForm()" [disabled]="!isDegreeSelected">
+                <div class="error-message" *ngIf="startDateGreaterThanEndDate">Start date should be less than end date.
                 </div>
-                
-                <div class="form-group col-md-4">
-                    <label>End Date</label>
-                    <input type="text" class="form-control" [(ngModel)]="formDataDegree.endDate" name="endDate" [disabled]="!isDegreeSelected">
+              </div>
+              <div class="form-group col-md-4">
+                <label>End Date</label>
+                <input type="date" class="form-control" [(ngModel)]="formDataDegree.endDate" name="endDate"
+                  (change)="validateForm()" [disabled]="!isDegreeSelected">
+                <div class="error-message" *ngIf="endDateGreaterThanIssueDate">End date should be less than issue date.
                 </div>
+              </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label>Issue Date</label>
-                    <input type="text" class="form-control" [(ngModel)]="formDataDegree.issueDate" name="issueDate" [disabled]="!isDegreeSelected">
-                </div>
+              <div class="form-group col-md-4">
+                <label>Issue Date</label>
+                <input type="date" class="form-control" [(ngModel)]="formDataDegree.issueDate" name="issueDate"
+                  (change)="validateForm()" [disabled]="!isDegreeSelected">
+              </div>
             </div>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <div class="zm-datepicker-display">
-                    <label>Created Date</label>
-                    <div class="zm-datepicker-display-content">
-                      <input type="text" name="" [value]="todayDate" readonly> by {{ user?.userName }}
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group col-md-6">
-                  <div class="zm-datepicker-display">
-                    <label>Last Updated Date</label>
-                    <div class="zm-datepicker-display-content">
-                      <input type="text" name="" [value]="todayDate" readonly> by {{ user?.userName }}</div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div class="zm-datepicker-display">
+                  <label>Created Date</label>
+                  <div class="zm-datepicker-display-content">
+                    <input type="text" name="createdDate" [value]="todayDate" readonly> by {{ user?.userName }}
                   </div>
                 </div>
               </div>
-            </form>
+              <div class="form-group col-md-6">
+                <div class="zm-datepicker-display">
+                  <label>Last Updated Date</label>
+                  <div class="zm-datepicker-display-content">
+                    <input type="text" name="lastUpdatedDate" [value]="todayDate" readonly> by {{ user?.userName }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
 
-            <div class="form-row row">
-              <div class="form-group col-md-12 zm-notes">
-                <label>Note</label>
-                <div class="zm-notes-list">
-                  <div *ngFor="let note of getnotes; let i = index" class="zm-notes-item">
-                    <div class="note-header">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="note-text">{{ note.note }}</span>
-                        <span class="note-text" *ngIf="note.version">{{note.groupId}}.{{note.version}}</span>
-                      </a>
-                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button > 
-                      <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
-                    </div>
-                    <div class="dropdown-menu">
-                      <div class="zm-note-detail">
-                        <h3>{{ note.note }}</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                 <textarea placeholder="Add new note"  (input)="checkNote()" [(ngModel)]="newNote"></textarea>
-                <button class="btn" [disabled]="!isNoteThere "  (click)="saveNote()">Save</button>
-               
-              </div>
-            </div>
 
-            <div class="zm-popup-datarow cols2multi">
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="zm-popup-item">
-                    <label>Select Document</label>
-                    <select class="form-control zm-select" [(ngModel)]="selectedDoc"  (click)="onDocSelected()" [ngModelOptions]="{standalone: true}" >
-                      <option   disabled selected value="">Select Document</option>
-                      <option  *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">{{ doc.value }}</option>
-                    </select>
+          <div class="form-row row">
+            <div class="form-group col-md-12 zm-notes">
+              <label>Note</label>
+              <div class="zm-notes-list">
+                <div *ngFor="let note of getnotes; let i = index" class="zm-notes-item">
+                  <div class="note-header">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <span class="note-text">{{ note.note }}</span>
+                      <span class="note-text" *ngIf="note.version">{{note.groupId}}.{{note.version}}</span>
+                    </a>
+                    <div class="button-group">
+                                          <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button>
+                    <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
                   </div>
-                </div>
-                <div class="col-md-7">
-                  <div class="zm-popup-item">
-                    <label>Document Name</label>
-                    <input type="text" class="form-control" id="documentName" placeholder="" [(ngModel)]="documentName" [disabled]="!isDocListSelected">
+
                   </div>
-                </div>
-                <div class="col-md-7">
-                  <div class="zm-popup-item">
-                    <label>Receive Date</label>
-                    <input type="text" class="form-control" id="receiveDate" placeholder="" [(ngModel)]="receiveDate" [disabled]="!isDocListSelected">
+                  <div class="dropdown-menu">
+                    <div class="zm-note-detail">
+                      <h3>{{ note.note }}</h3>
+                    </div>
                   </div>
-                </div>
-                 <div class="col-md-7">
-                  <div class="zm-popup-item">
-                    <label>Upload Document</label>
-                    <input type="file" class="form-control" id="" placeholder=""  (change)="onFileSelected($event)" [disabled]="!isDocListSelected">
-                  </div>
-                </div>
-           
-                <div class="col-md-7">
-                  <button class="btn btn-sm btn-secondary py-0 px-1" *ngIf="updateDegree" (click)="downloadImage()">
-                    Download Image
-                  </button>
                 </div>
               </div>
+              <textarea placeholder="Add new note" (input)="checkNote()" [(ngModel)]="newNote"></textarea>
+              <div class="button-group">
+              <button class="btn"  *ngIf="!isEditMode" [disabled]="!isNoteThere " (click)="saveNote()">Add Note</button>
+              <button class="btn" *ngIf="isEditMode" [disabled]="!isNoteThere" (click)="saveEditedNote()">Edit</button>
+               <button class="btn" *ngIf="isEditMode" (click)="cancelEditedNote()">Cancel</button>
+              </div>
+
             </div>
-          
-          </div>
- 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close" [disabled]="isFormInvalid() " *ngIf="!updateDegree"  (click)="saveDocument()"><i class="mdi mdi-plus" ></i>Save</button>
-            <button type="button" class="btn btn-secondary close" data-dismiss="modal"  aria-label="Close" [disabled]="isFormInvalid()" *ngIf="updateDegree" (click)="updateDoc()"><i class="mdi mdi-plus"></i>Update</button>
-            <button type="button" class="btn btn-primary"   data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
           </div>
 
-        </div><!-- modal-content -->
-      </div><!-- modal-dialog -->
-    </div><!-- modal -->
-    
-    <!--====  End of Home middle section  ====-->
+          <div class="zm-popup-datarow cols2multi">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="zm-popup-item">
+                  <label>Select Document</label>
+                  <select class="form-control zm-select" [(ngModel)]="selectedDoc" (click)="onDocSelected()"
+                    [ngModelOptions]="{standalone: true}">
+                    <option disabled selected value="">Select Document</option>
+                    <option *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">{{ doc.value }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="zm-popup-item">
+                  <label>Document Name</label>
+                  <input type="text" class="form-control" id="documentName" placeholder="" [(ngModel)]="documentName"
+                    [disabled]="!isDocListSelected">
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="zm-popup-item">
+                  <label>Receive Date</label>
+                  <input type="date" class="form-control" id="receiveDate" placeholder="" [(ngModel)]="receiveDate"
+                    [disabled]="!isDocListSelected">
+                </div>
+              </div>
+              <div class="zm-popup-body">
+                <div class="zm-popup-item">
+                  <label>Upload Document</label>
+                  <input type="file" class="form-control" id="" placeholder="" (change)="onFileSelected($event)"
+                    [disabled]="!isDocListSelected">
+                  <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                </div>
+              </div>
 
-    <!--=================================
+              <div class="col-md-7">
+                <button class="btn btn-sm btn-secondary py-0 px-1" *ngIf="updateDegree" (click)="downloadImage()">
+                  Download Image
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close"
+            [disabled]="isFormInvalid() " *ngIf="!updateDegree" (click)="saveDocument()"><i
+              class="mdi mdi-plus"></i>Save</button>
+          <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close"
+            [disabled]="isFormInvalid()" *ngIf="updateDegree" (click)="updateDoc()"><i
+              class="mdi mdi-plus"></i>Update</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
+        </div>
+
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
+
+  <!--====  End of Home middle section  ====-->
+
+  <!--=================================
     =            Main Footer            =
     ==================================-->
-    
-    <footer class="ad-footer">
-      <div class="container">
-        <p class="text-center">&copy; 2022 Z Mark. All rights reserved</p>
-      </div>
-    </footer>
-    
-    <!--====  End of Main Footer  ====-->
 
-    
-    <script src="../assets/js/jquery.min.js"></script>
-    
-    <!-- Bootstrap core JavaScript
+  <footer class="ad-footer">
+    <div class="container">
+      <p class="text-center">&copy; 2022 Z Mark. All rights reserved</p>
+    </div>
+  </footer>
+
+  <!--====  End of Main Footer  ====-->
+
+
+  <script src="../assets/js/jquery.min.js"></script>
+
+  <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+  <!-- Placed at the end of the document so the pages load faster -->
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!--[if lt IE 9]><script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="js/ie-emulation-modes-warning.js"></script>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--[if lt IE 9]><script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="js/ie-emulation-modes-warning.js"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!-- <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script> -->
-    <!-- <script src="../assets/js/jquery-3.5.1.slim.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
-    <script src="../assets/js/popper.min.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/slick.min.js"></script>
-    <script src="../assets/js/comman.js"></script>
-    <script type="text/javascript">
-      $('#effectivedate').datepicker({
-          weekStart: 1,
-          daysOfWeekHighlighted: "6,0",
-          autoclose: true,
-          todayHighlight: true,
-      });
-      $('#effectivedate').datepicker("setDate", new Date());
-      $('#endeffectivedate').datepicker({
-          weekStart: 1,
-          daysOfWeekHighlighted: "6,0",
-          autoclose: true,
-          todayHighlight: true,
-      });
-      $('#endeffectivedate').datepicker("setDate", new Date());
+  <!-- <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script> -->
+  <!-- <script src="../assets/js/jquery-3.5.1.slim.min.js"></script> -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+  <script src="../assets/js/popper.min.js"></script>
+  <script src="../assets/js/bootstrap.min.js"></script>
+  <script src="../assets/js/slick.min.js"></script>
+  <script src="../assets/js/comman.js"></script>
+  <script type="text/javascript">
+    $('#effectivedate').datepicker({
+      weekStart: 1,
+      daysOfWeekHighlighted: "6,0",
+      autoclose: true,
+      todayHighlight: true,
+    });
+    $('#effectivedate').datepicker("setDate", new Date());
+    $('#endeffectivedate').datepicker({
+      weekStart: 1,
+      daysOfWeekHighlighted: "6,0",
+      autoclose: true,
+      todayHighlight: true,
+    });
+    $('#endeffectivedate').datepicker("setDate", new Date());
 
-      /*=========================================
-      =            More Text Content            =
-      =========================================*/
-      $(document).ready(function() {
-        // Configure/customize these variables.
-        var showChar = 100;  // How many characters are shown by default
-        var ellipsestext = "...";
-        var moretext = "Show more >";
-        var lesstext = "Show less";
-        
+    /*=========================================
+    =            More Text Content            =
+    =========================================*/
+    $(document).ready(function () {
+      // Configure/customize these variables.
+      var showChar = 100;  // How many characters are shown by default
+      var ellipsestext = "...";
+      var moretext = "Show more >";
+      var lesstext = "Show less";
 
-        $('.more').each(function() {
-          var content = $(this).html();
-   
-          if(content.length > showChar) {
-   
-            var c = content.substr(0, showChar);
-            var h = content.substr(showChar, content.length - showChar);
- 
-            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
- 
-            $(this).html(html);
-          }
-     
-        });
-     
-        $(".morelink").click(function(){
-          $('.morelink').each(function() {
-            if($(this).hasClass("less")) {
-              $(this).removeClass("less");
-              $(this).html(moretext);
-              $(this).parent().prev().toggle();
-              $(this).prev().toggle();  
-            }
-          });
-          if($(this).hasClass("less")) {
+
+      $('.more').each(function () {
+        var content = $(this).html();
+
+        if (content.length > showChar) {
+
+          var c = content.substr(0, showChar);
+          var h = content.substr(showChar, content.length - showChar);
+
+          var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+
+          $(this).html(html);
+        }
+
+      });
+
+      $(".morelink").click(function () {
+        $('.morelink').each(function () {
+          if ($(this).hasClass("less")) {
             $(this).removeClass("less");
             $(this).html(moretext);
-          } else {
-            $(this).addClass("less");
-            $(this).html(lesstext);
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
           }
-          $(this).parent().prev().toggle();
-          $(this).prev().toggle();
-          return false;
         });
+        if ($(this).hasClass("less")) {
+          $(this).removeClass("less");
+          $(this).html(moretext);
+        } else {
+          $(this).addClass("less");
+          $(this).html(lesstext);
+        }
+        $(this).parent().prev().toggle();
+        $(this).prev().toggle();
+        return false;
       });
-      /*=====  End of More Text Content  ======*/
+    });
+    /*=====  End of More Text Content  ======*/
 
   </script>
-  </body>
+</body>
+
 </html>

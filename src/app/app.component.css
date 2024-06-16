@@ -44,3 +44,7 @@
   font-size: 12px;
   display: inline-block;
 }
+.button-group {
+  display: flex;
+  gap: 10px;
+}
