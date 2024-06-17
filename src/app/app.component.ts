@@ -66,14 +66,13 @@ export class AppComponent {
     this.cdr.detectChanges();
   }
 
-  formatDate(date: Date): string {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    return `${month}/${day}/${year}`;
+  formatDate(date: Date | string): string {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    return `${day}-${month}-${year}`;
   }
-
   getDegreeAndUser() {
     const userId = 1;
     this.degreeService.getUserById(userId).subscribe((user) => {
@@ -99,15 +98,26 @@ export class AppComponent {
       }, 100);
     });
   }
-
   updateValue(element: number) {
+    
+    const previousSelectedStatus = this.selectedStatus;
+
     this.selectedMasterType = element;
     this.degreeService.getListOfConfig(element).subscribe((val) => {
-      this.config = val;
+        this.config = val;
     });
     this.isNationalOrInternationalSelected = (element === 1 || element === 2);
+     if (element === 1 || element === 2) {
+        this.selectedStatus = '';  
+    }
+      if ( previousSelectedStatus) {
+      this.selectedStatus = previousSelectedStatus;
   }
-
+ 
+   
+}
+  
+   
   getListOfConfigForDoc() {
     this.degreeService.getListOfConfigForDoc(3).subscribe((val) => {
       this.ListOfConfigForDoc = val;
@@ -185,8 +195,7 @@ export class AppComponent {
   isFormInvalid(): boolean {
     const isStringFieldInvalid = (field: string): boolean => !field || field.trim() === '';
     const isDateFieldInvalid = (date: Date): boolean => !date || isNaN(new Date(date).getTime());
-
-    // Check if any string field is invalid
+ 
     if (
       isStringFieldInvalid(this.selectedDoc) ||
       isStringFieldInvalid(this.documentName) ||
@@ -195,13 +204,14 @@ export class AppComponent {
     ) {
       return true;
     }
-
-    // Check if selectedMasterType is not set
+     if(!this.selectedFile){
+      return true;
+     }
+ 
     if (!this.selectedMasterType) {
       return true;
     }
-
-    // Check if any date field is invalid
+ 
     if (
       isDateFieldInvalid(this.formDataDegree.startDate) ||
       isDateFieldInvalid(this.formDataDegree.endDate) ||
@@ -217,56 +227,65 @@ export class AppComponent {
 
     // If all validations pass, form is considered valid
     return false;
+    
   }
 
   validateForm() {
     this.startDateGreaterThanEndDate = false;
     this.endDateGreaterThanIssueDate = false;
     this.isDateValid = true;
-
+  
     const startDate = new Date(this.formDataDegree.startDate);
     const endDate = new Date(this.formDataDegree.endDate);
     const issueDate = new Date(this.formDataDegree.issueDate);
-
-    if (startDate >= endDate) {
-      this.startDateGreaterThanEndDate = true;
+  
+    if (this.formDataDegree.startDate && this.formDataDegree.endDate && this.formDataDegree.issueDate) {
+      if (startDate >= endDate) {
+        this.startDateGreaterThanEndDate = true;
+      }
+  
+      if (endDate >= issueDate) {
+        this.endDateGreaterThanIssueDate = true;
+      }
+  
+      this.isDateValid = !this.startDateGreaterThanEndDate && !this.endDateGreaterThanIssueDate;
     }
-
-    if (endDate >= issueDate) {
-      this.endDateGreaterThanIssueDate = true;
-    }
-
-    this.isDateValid = !this.startDateGreaterThanEndDate && !this.endDateGreaterThanIssueDate;
   }
-
   onDegreeSelected() {
-    this.isDegreeSelected = !!this.selectedStatus;
+   
+    
+      this.isDegreeSelected = !!this.selectedStatus;
+     
+    
   }
 
-  resetFormValues() {
-    // Check if ViewChild elements are defined before accessing nativeElement
-    if (this.nationalRadioButton && this.internationalRadioButton) {
+ 
+resetFormValues() {
+  // Check if ViewChild elements are defined before accessing nativeElement
+  if (this.nationalRadioButton && this.internationalRadioButton) {
       this.nationalRadioButton.nativeElement.checked = false;
       this.internationalRadioButton.nativeElement.checked = false;
-    }
-
-    // Reset other form values
-    this.selectedStatus = '';
-    this.formDataDegree.startDate = null;
-    this.formDataDegree.endDate = null;
-    this.formDataDegree.issueDate = null;
-    this.isDegreeSelected = false;
-    this.isNationalOrInternationalSelected = false;
-    this.isDocListSelected = false;
-    this.notes = [];
-    this.newNote = '';
-    this.updateDegree = null;
-    this.receiveDate = '';
-    this.documentName = '';
-    this.selectedDoc = '';
-    this.selectedFile = null;
-
   }
+
+  // Reset other form values
+  this.selectedStatus = null;
+  this.formDataDegree.startDate = null;
+  this.formDataDegree.endDate = null;
+  this.formDataDegree.issueDate = null;
+  this.isDegreeSelected = false;
+  this.isNationalOrInternationalSelected = false;
+  this.isDocListSelected = false;
+  this.notes = [];
+  this.newNote = '';
+  this.updateDegree = null;
+  this.receiveDate = '';
+  this.documentName = '';
+  this.selectedDoc = '';
+  this.selectedFile = null;
+  this.editedNotes = [];
+  this.getnotes=[];
+  this.isDateValid = true;
+}
   onDocSelected() {
     this.isDocListSelected = !!this.selectedDoc;
   }
@@ -276,14 +295,17 @@ export class AppComponent {
   degreeId: number;
   load: any;
 
-  downloadImage() {
-    const url = `http://localhost:9090/api/documents/download/${this.degreeId}`;
-
+  downloadImage( ) {
+   const documentId =   this.load.id ;
+    const url = `http://192.168.21.39:9090/api/documents/download/${documentId}`;
+  
     this.http.get(url, { responseType: 'blob' }).subscribe(
       (response: Blob) => {
         const blob = new Blob([response]);
         const contentType = response.type;
         let fileExtension = 'unknown';
+  
+        // Determine the file extension based on the response content type
         if (contentType.includes('image/jpeg')) {
           fileExtension = 'jpg';
         } else if (contentType.includes('image/png')) {
@@ -293,12 +315,25 @@ export class AppComponent {
         } else if (contentType.includes('application/pdf')) {
           fileExtension = 'pdf';
         }
+  
+        // Use the original file name if available, otherwise use a generic name
+        let fileName = `document.${fileExtension}`;
+        
+        // Check if document_name_extension exists and append it to the file name
+        const documentNameExtension =  this.load.documentNameExtension;
+        console.log(this.load)
+        if (documentNameExtension) {
+          fileName = `document.${documentNameExtension}`;
+        }
+  
         const blobUrl = window.URL.createObjectURL(blob);
+  
         const link = document.createElement('a');
         link.href = blobUrl;
-        link.download = `document.${fileExtension}`;
+        link.download = fileName;
         document.body.appendChild(link);
         link.click();
+  
         window.URL.revokeObjectURL(blobUrl);
         document.body.removeChild(link);
       },
@@ -316,47 +351,54 @@ export class AppComponent {
     this.formDataDegree.endDate = degree.endDate;
     this.formDataDegree.issueDate = degree.issueDate;
     this.updateDegree = degree;
-
+  
     if (degree.masterType === 'National') {
       this.selectedMasterType = 1;
       this.nationalRadioButton.nativeElement.checked = true;
-       
+  
     } else {
       this.selectedMasterType = 2;
       this.internationalRadioButton.nativeElement.checked = true;
-        
+  
     }
-
+  
     this.degreeService.getDocumentByDegreeId(degree.degreeId).subscribe((temp) => {
       this.receiveDate = temp.receivedDate;
       this.documentName = temp.docName;
-      this.selectedDoc = temp.configTable.value;
+        this.selectedDoc = temp.configTable.value;
+      this.selectedFile = temp.documentImage;
       this.load = temp;
-
+  
       if (this.selectedDoc) {
         this.isDocListSelected = true;
       }
     });
-
+  
     this.updateValue(this.selectedMasterType);
-
+  
     setTimeout(() => {
       this.selectedStatus = degree.value;
       this.onDegreeSelected();
       this.cdr.detectChanges();
     }, 0);
-
+  
     this.degreeService.getNotes(degree.degreeId).subscribe((temp) => {
       this.getnotes = temp;
     });
+    this.saveNotes = [];
+    this.notes = [];
+    this.editedNotes = [];
+    
+    this.getDegreeAndUser();
   }
 
-  finalArray: any[] = [];
 
-  updateDoc() {
   
+  finalArray: any[] = [];
+  documentBaseName: string;
+  updateDoc() {
     const temp1 = this.load;
-
+  
     this.degreeService.updateDegree(this.degreeId, this.selectedMasterType, this.selectedStatus, this.formDataDegree)
       .subscribe(
         response => {
@@ -367,34 +409,38 @@ export class AppComponent {
           this.getDegreeAndUser();
         }
       );
-
+  
+  
     const formDataDocument: FormData = new FormData();
     formDataDocument.append('masterId', '3');
     formDataDocument.append('docName', this.documentName);
     formDataDocument.append('documentImage', this.selectedFile);
     formDataDocument.append('value', this.selectedDoc);
     formDataDocument.append('receiveDate', this.receiveDate);
-
-    this.degreeService.updateDocument(temp1.id, formDataDocument).subscribe(() => {
+  
+    this.degreeService.updateDocument(this.degreeId, formDataDocument).subscribe(() => {
       this.getDegreeAndUser();
       this.resetFormValues();
     });
-
-    document.getElementById('degreeModal').setAttribute('display', 'none');
-
-    this.finalArray = [...this.saveNotes, ...this.notes,...this.editedNotes];
-     
+  
+   
+  
+    this.finalArray = [...this.saveNotes, ...this.notes, ...this.editedNotes];
+  
     this.degreeService.deletePostUpdateNotes(this.degreeId, this.finalArray).subscribe((temp) => {
       console.log(temp);
       this.finalArray = null;
-
-      this.saveNotes = [];
-      this.notes = [];
-      this.editedNotes = []; // Clear editedNotes after saving
-      this.getDegreeAndUser();
+  
+  
     });
-   
+    this.saveNotes = [];
+    this.notes = [];
+    this.editedNotes = [];
+  
+    this.getDegreeAndUser();
+    document.getElementById('degreeModal').setAttribute('display', 'none');
   }
+
 
   saveNotes: any[] = [];
   isNoteThere: boolean = false;
@@ -459,5 +505,7 @@ export class AppComponent {
     this.selectedEditedNoteIndex = null;
   }
 
-
+  removeFile(){
+    this.selectedFile = null;
+  }
 }

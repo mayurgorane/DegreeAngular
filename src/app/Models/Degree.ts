@@ -8,6 +8,8 @@ export class Degree{
     startDate: Date
     masterType?:string
     value?:string
+    formattedModifiedDate?: string; 
+ 
 
 
 }

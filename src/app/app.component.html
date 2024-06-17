@@ -97,25 +97,25 @@
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Created Date</h3>
-                  <p>{{degree.createdDate}}</p>
+                  <p>{{ degree.createdDate | date: 'dd-MM-yyyy' }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Start Date</h3>
-                  <p>{{degree.startDate}}</p>
+                  <p>{{ degree.startDate | date: 'dd-MM-yyyy' }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>End Date</h3>
-                  <p>{{degree.endDate}}</p>
+                  <p>{{ degree.endDate | date: 'dd-MM-yyyy' }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Issue Date</h3>
-                  <p>{{degree.issueDate}}</p>
+                  <p>{{ degree.issueDate | date: 'dd-MM-yyyy' }}</p>
                 </div>
               </div>
             </div>
@@ -124,13 +124,13 @@
                 <div class="zm-provider-display-details">
                   <h3>Modified Date</h3>
                   <p>
-                    {{ degree.modifiedDate ? degree.modifiedDate : 'Not modified yet' }}
+                    {{ degree.modifiedDate ? (degree.modifiedDate | date: 'dd-MM-yyyy') : 'Not modified yet' }}
                   </p>
                 </div>
               </div>
-
             </div>
 
+         
           </div>
         </div>
 
@@ -156,10 +156,10 @@
         <div class="modal-body">
 
           <form>
-            <div class="form-row">
+            <div class="form-row" >
               <div class="form-group">
                 <label>Choose National or International:</label>
-                <input type="radio" id="national" name="payorType" value="1" (click)="updateValue(1)"
+                <input type="radio" id="national" name="payorType" value="1"  (click)="updateValue(1)"
                   #nationalRadioButton> National<br>
                 <input type="radio" id="international" name="payorType" value="2" (click)="updateValue(2)"
                   #internationalRadioButton> International<br>
@@ -173,30 +173,39 @@
                 </select>
               </div>
             </div>
+            
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label>Start Date</label>
                 <input type="date" class="form-control" [(ngModel)]="formDataDegree.startDate" name="startDate"
-                  (change)="validateForm()" [disabled]="!isDegreeSelected">
-                <div class="error-message" *ngIf="startDateGreaterThanEndDate">Start date should be less than end date.
-                </div>
+                       (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate">
+                <input type="hidden" [ngModel]="formDataDegree.startDate | date: 'yyyy-MM-dd'" name="startDateFormatted">
               </div>
               <div class="form-group col-md-4">
                 <label>End Date</label>
                 <input type="date" class="form-control" [(ngModel)]="formDataDegree.endDate" name="endDate"
-                  (change)="validateForm()" [disabled]="!isDegreeSelected">
-                <div class="error-message" *ngIf="endDateGreaterThanIssueDate">End date should be less than issue date.
-                </div>
+                       (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate">
+                <input type="hidden" [ngModel]="formDataDegree.endDate | date: 'yyyy-MM-dd'" name="endDateFormatted">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label>Issue Date</label>
                 <input type="date" class="form-control" [(ngModel)]="formDataDegree.issueDate" name="issueDate"
-                  (change)="validateForm()" [disabled]="!isDegreeSelected">
+                       (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate">
+                <input type="hidden" [ngModel]="formDataDegree.issueDate | date: 'yyyy-MM-dd'" name="issueDateFormatted">
               </div>
             </div>
-            <div class="form-row">
+            <div class="error-message small-text" *ngIf="!isDateValid && startDateGreaterThanEndDate && endDateGreaterThanIssueDate">
+              Error: Start date is greater than end date. End date is greater than issue date.
+            </div>
+            <div class="error-message small-text" *ngIf="!isDateValid && startDateGreaterThanEndDate && !endDateGreaterThanIssueDate">
+              Error: Start date is greater than end date.
+            </div>
+            <div class="error-message small-text" *ngIf="!isDateValid && !startDateGreaterThanEndDate && endDateGreaterThanIssueDate">
+              Error: End date is greater than issue date.
+            </div>
+         <div class="form-row">
               <div class="form-group col-md-6">
                 <div class="zm-datepicker-display">
                   <label>Created Date</label>
@@ -208,11 +217,15 @@
               <div class="form-group col-md-6">
                 <div class="zm-datepicker-display">
                   <label>Last Updated Date</label>
-                  <div class="zm-datepicker-display-content">
+                  <div class="zm-datepicker-display-content" *ngIf="updateDegree">
+                    <input type="text" name="lastUpdatedDate" [value]="updateDegree.modifiedDate | date: 'dd-MM-yyyy'" readonly> by {{ user?.userName }}
+                  </div>
+                  <div class="zm-datepicker-display-content" *ngIf="!updateDegree">
                     <input type="text" name="lastUpdatedDate" [value]="todayDate" readonly> by {{ user?.userName }}
                   </div>
                 </div>
               </div>
+             
             </div>
           </form>
           <div class="form-row row">
@@ -230,10 +243,7 @@
                       <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button>
                       <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
                     </div>
-
-
-
-                  </div>
+                      </div>
                   <div class="dropdown-menu">
                     <div class="zm-note-detail">
                       <h3>{{ note.note }}</h3>
@@ -253,47 +263,57 @@
 
             </div>
           </div>
-
+ 
           <div class="zm-popup-datarow cols2multi">
             <div class="row">
+          
               <div class="col-md-5">
                 <div class="zm-popup-item">
                   <label>Select Document</label>
                   <select class="form-control zm-select" [(ngModel)]="selectedDoc" (click)="onDocSelected()"
-                    [ngModelOptions]="{standalone: true}">
+                          [ngModelOptions]="{standalone: true}">
                     <option disabled selected value="">Select Document</option>
                     <option *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">{{ doc.value }}</option>
                   </select>
                 </div>
               </div>
+          
               <div class="col-md-7">
                 <div class="zm-popup-item">
                   <label>Document Name</label>
                   <input type="text" class="form-control" id="documentName" placeholder="" [(ngModel)]="documentName"
-                    [disabled]="!isDocListSelected">
+                         [disabled]="!isDocListSelected">
                 </div>
               </div>
+          
               <div class="col-md-7">
                 <div class="zm-popup-item">
                   <label>Receive Date</label>
                   <input type="date" class="form-control" id="receiveDate" placeholder="" [(ngModel)]="receiveDate"
-                    [disabled]="!isDocListSelected">
+                         [disabled]="!isDocListSelected">
                 </div>
               </div>
-              <div class="zm-popup-body">
-                <div class="zm-popup-item">
+              
+              <div class="col-md-7">
+                <div class="zm-popup-item upload-section">
+                  <label class="custom-file-upload" >
+                    <input type="file"  (change)="onFileSelected($event)" [disabled]="!isDocListSelected">
+                    Choose File
+                  </label>
                   <label>Upload Document</label>
-                  <input type="file" class="form-control" id="" placeholder="" (change)="onFileSelected($event)"
-                    [disabled]="!isDocListSelected">
-                  <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                  <div>
+             <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+            </div>
+
                 </div>
               </div>
-
+          
               <div class="col-md-7">
                 <button class="btn btn-sm btn-secondary py-0 px-1" *ngIf="updateDegree" (click)="downloadImage()">
-                  Download Image
+                  Download
                 </button>
               </div>
+          
             </div>
           </div>
 
@@ -301,12 +321,12 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close"
-            [disabled]="isFormInvalid() " *ngIf="!updateDegree" (click)="saveDocument()"><i
+            [disabled]="isFormInvalid()  " *ngIf="!updateDegree" (click)="saveDocument()"><i
               class="mdi mdi-plus"></i>Save</button>
           <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close"
             [disabled]="isFormInvalid()" *ngIf="updateDegree" (click)="updateDoc()"><i
               class="mdi mdi-plus"></i>Update</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
+          <button type="button" class="btn btn-secondary close" data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
         </div>
 
       </div><!-- modal-content -->
