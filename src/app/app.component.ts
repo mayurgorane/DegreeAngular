@@ -27,7 +27,6 @@ export class AppComponent {
   todayDate: string;
   isNationalOrInternationalSelected: boolean = false;
   isDegreeSelected: boolean = false;
-
   selectedFile: File = null;
   documentName: string;
   receiveDate: string;
@@ -37,15 +36,16 @@ export class AppComponent {
   startDateGreaterThanEndDate: boolean = false;
   endDateGreaterThanIssueDate: boolean = false;
   isDateValid: boolean = true;
-  
-
-  @ViewChild('nationalRadioButton') nationalRadioButton;
-  @ViewChild('internationalRadioButton') internationalRadioButton;
   formDataDegree: AddDegree = {
     startDate: null,
     endDate: null,
     issueDate: null,
-  };
+  }; 
+
+
+  @ViewChild('nationalRadioButton') nationalRadioButton;
+  @ViewChild('internationalRadioButton') internationalRadioButton;
+
 
   constructor(
     private degreeService: DegreeServiceService,
@@ -106,25 +106,27 @@ export class AppComponent {
       this.deleteDegreeById(degreeId);
     }
   }
-  updateValue(element: number) {
-    
-    const previousSelectedStatus = this.selectedStatus;
-
-    this.selectedMasterType = element;
-    this.degreeService.getListOfConfig(element).subscribe((val) => {
-        this.config = val;
-    });
-    this.isNationalOrInternationalSelected = (element === 1 || element === 2);
-     if (element === 1 || element === 2) {
-        this.selectedStatus = '';  
-    }
-      if ( previousSelectedStatus) {
-      this.selectedStatus = previousSelectedStatus;
-  }
- 
    
+ updateValue(element: number) {
+  const previousSelectedStatus = this.selectedStatus;
+
+  this.selectedMasterType = element;
+  this.degreeService.getListOfConfig(element).subscribe((val) => {
+    this.config = val;
+  });
+ 
+  if (element === 1 || element === 2) {
+    this.isNationalOrInternationalSelected = true;
+    if (previousSelectedStatus !== null && previousSelectedStatus !== undefined) {
+      this.selectedStatus = previousSelectedStatus;
+    } else {
+      this.selectedStatus = '';
+    }
+  } else {
+    this.isNationalOrInternationalSelected = false;
+    this.selectedStatus = '';
+  }
 }
-  
    
   getListOfConfigForDoc() {
     this.degreeService.getListOfConfigForDoc(3).subscribe((val) => {
@@ -276,7 +278,7 @@ resetFormValues() {
   }
 
   // Reset other form values
-  this.selectedStatus = null;
+  this.selectedStatus = '';
   this.formDataDegree.startDate = null;
   this.formDataDegree.endDate = null;
   this.formDataDegree.issueDate = null;
@@ -364,7 +366,7 @@ resetFormValues() {
       this.selectedMasterType = 1;
       this.nationalRadioButton.nativeElement.checked = true;
   
-    } else {
+    }  if (degree.masterType === 'International') {
       this.selectedMasterType = 2;
       this.internationalRadioButton.nativeElement.checked = true;
   
@@ -376,6 +378,7 @@ resetFormValues() {
         this.selectedDoc = temp.configTable.value;
       this.selectedFile = temp.documentImage;
       this.load = temp;
+      this.selectedStatus = degree.value;
   
       if (this.selectedDoc) {
         this.isDocListSelected = true;
@@ -385,7 +388,7 @@ resetFormValues() {
     this.updateValue(this.selectedMasterType);
   
     setTimeout(() => {
-      this.selectedStatus = degree.value;
+      
       this.onDegreeSelected();
       this.cdr.detectChanges();
     }, 0);
@@ -556,5 +559,11 @@ resetFormValues() {
 
   removeFile(){
     this.selectedFile = null;
+  }
+  scrollToDegree(degreeId: number) {
+    const element = document.getElementById('degree-' + degreeId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    }
   }
 }

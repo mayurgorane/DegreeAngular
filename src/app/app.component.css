@@ -99,3 +99,9 @@ body {
 .ad-footer {
   margin-top: auto;
 }
+.center-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 50vh; /* Full height of the viewport */
+}
