@@ -4,11 +4,7 @@ import { User } from './Models/User';
 import { Degree } from './Models/Degree';
 import { AddDegree } from './Models/AddDegree';
 import { HttpClient } from '@angular/common/http';
-import { DocumentTable } from './Models/DocumentTable';
-import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { empty } from 'rxjs';
+ 
 
 @Component({
   selector: 'app-root',
@@ -117,7 +113,7 @@ updateValue(element: number) {
   } else if (this.selectedMasterType === 2) {
     this.selectedInternationalStatus = this.selectedStatus;
   }
-
+  
   this.selectedMasterType = element;
   this.degreeService.getListOfConfig(element).subscribe((val) => {
     this.config = val;
