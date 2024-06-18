@@ -37,6 +37,7 @@ export class AppComponent {
   startDateGreaterThanEndDate: boolean = false;
   endDateGreaterThanIssueDate: boolean = false;
   isDateValid: boolean = true;
+  
 
   @ViewChild('nationalRadioButton') nationalRadioButton;
   @ViewChild('internationalRadioButton') internationalRadioButton;
@@ -94,9 +95,16 @@ export class AppComponent {
     this.degreeService.deleteDegree(degreeId).subscribe(() => {
       setTimeout(() => {
         this.getDegreeAndUser();
-        alert('Degree successfully deleted');
+       
       }, 100);
     });
+  }
+  confirmDelete(degreeId: number) {
+    const confirmed = window.confirm('Are you sure you want to delete this degree?');
+  
+    if (confirmed) {
+      this.deleteDegreeById(degreeId);
+    }
   }
   updateValue(element: number) {
     
@@ -469,11 +477,14 @@ resetFormValues() {
         groupId: deleteNote.groupId
       });
     }
-
-    console.log(i);
     this.getnotes.splice(i, 1);
     this.saveNotes.splice(note, 1);
-    console.log(this.saveNotes);
+    
+    const noteIndexInEditedNotes = this.editedNotes.findIndex(n => n.groupId === deleteNote.groupId);
+    if (noteIndexInEditedNotes !== -1) {
+      this.editedNotes.splice(noteIndexInEditedNotes, 1);
+    }
+    
   }
 
   editedNotes: any[] = [];
@@ -487,14 +498,52 @@ resetFormValues() {
     this.selectedEditedNote = this.getnotes[i];
     this.selectedEditedNoteIndex = i;
     this.newNote = this.selectedEditedNote.note;
+    
+    // Find the note in the editedNotes array
+    const editedNoteIndex = this.editedNotes.findIndex(note => 
+      note.note === this.selectedEditedNote.note
+    );
+    
+    if (editedNoteIndex !== -1) {
+      // Find the index of the existing note in the saveNotes array
+      const existingNoteIndex = this.saveNotes.findIndex(note => 
+        note.note === this.selectedEditedNote.note 
+      );
+      
+      if (existingNoteIndex !== -1) {
+        // Replace the existing note text in saveNotes with the edited note text
+        this.saveNotes[existingNoteIndex].note = this.newNote;
+      }
+      
+      // Remove the note from the editedNotes array
+      this.editedNotes.splice(editedNoteIndex, 1);
+    }
+  
   }
 
   saveEditedNote() {
     this.editedNote = this.newNote;
+    const editedNoteIndex = this.editedNotes.findIndex(note => 
+      note.note === this.editedNote.trim() && note.groupId === this.selectedEditedNote.groupId
+    );
+  
+    if (editedNoteIndex !== -1) {
+      // Update the existing note in editedNotes
+      this.editedNotes[editedNoteIndex].note = this.editedNote.trim();
+    } else {
+      // Add the edited note to editedNotes
+      this.editedNotes.push({ note: this.editedNote.trim(), groupId: this.selectedEditedNote.groupId });
+    }
+  
+    // Update version and cancel editing
     this.getnotes[this.selectedEditedNoteIndex].note = this.editedNote.trim();
-    this.editedNotes.push({ note: this.editedNote.trim(),groupId: this.selectedEditedNote.groupId});
+    if (!this.getnotes[this.selectedEditedNoteIndex].versionIncremented) {
+      this.getnotes[this.selectedEditedNoteIndex].version += 1;
+      this.getnotes[this.selectedEditedNoteIndex].versionIncremented = true;
+    }
     this.cancelEditedNote();
-     
+  
+    console.log(this.saveNotes);
   }
 
   cancelEditedNote() {

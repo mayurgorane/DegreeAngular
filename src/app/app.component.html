@@ -70,10 +70,12 @@
           <div class="zm-provider-display-heading justify-content-between align-items-center">
             <h2>Degree Information</h2>
             <div class="buttons-group">
-              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal"
-                (click)="update(degree)"><i class="mdi mdi-pencil"></i>Edit</button>
-              <button type="button" class="btn btn-secondary remove" data-dismiss="modal"
-                (click)="deleteDegreeById(degree.degreeId)"><i class="mdi mdi-delete"></i>Remove</button>
+              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal" (click)="update(degree)">
+                <i class="mdi mdi-pencil"></i>Edit
+              </button>
+              <button type="button" class="btn btn-secondary remove" data-dismiss="modal" (click)="confirmDelete(degree.degreeId)">
+                <i class="mdi mdi-delete"></i>Remove
+              </button>
             </div>
           </div>
 
@@ -237,7 +239,8 @@
                   <div class="note-header">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <span class="note-text">{{ note.note }}</span>
-                      <span class="note-text" *ngIf="note.version">{{note.groupId}}.{{note.version}}</span>
+                      <span class="note-text" *ngIf="note.version">v{{note.version}}</span>
+                      <span class="note-text" *ngIf="!note.version">v1</span>
                     </a>
                     <div class="button-group">
                       <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button>
