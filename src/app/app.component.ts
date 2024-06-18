@@ -15,7 +15,7 @@ export class AppComponent {
   user: User;
   degrees: Degree[] = [];
 
-  config: any[];
+  config :any=[];
   selectedMasterType: number;
   selectedStatus: string = '';
   ListOfConfigForDoc: any[];
@@ -87,7 +87,7 @@ export class AppComponent {
   }
 
   deleteDegreeById(degreeId: number) {
-    console.log(degreeId);
+ 
     this.degreeService.deleteDegree(degreeId).subscribe(() => {
       setTimeout(() => {
         this.getDegreeAndUser();
@@ -132,6 +132,20 @@ updateValue(element: number) {
     this.isNationalOrInternationalSelected = false;
     this.selectedStatus = '';
   }
+
+  
+ 
+  
+}
+onDegreeSelected() {
+  this.isDegreeSelected = !!this.selectedStatus; 
+
+ if(!this.config.includes(this.selectedStatus)){
+this.selectedNationalStatus= ''
+ }if(!this.config.includes(this.selectedStatus)){
+this.selectedInternationalStatus= ''
+ }
+ 
 }
    
   getListOfConfigForDoc() {
@@ -236,12 +250,14 @@ updateValue(element: number) {
       return true;
     }
 
-    // Check additional date validations using isDateValid property
+    
+    
     if (!this.isDateValid) {
       return true;
     }
 
-    // If all validations pass, form is considered valid
+
+    
     return false;
     
   }
@@ -267,23 +283,18 @@ updateValue(element: number) {
       this.isDateValid = !this.startDateGreaterThanEndDate && !this.endDateGreaterThanIssueDate;
     }
   }
-  onDegreeSelected() {
-   
-    
-      this.isDegreeSelected = !!this.selectedStatus;
-     
-    
-  }
+
 
  
 resetFormValues() {
-  // Check if ViewChild elements are defined before accessing nativeElement
+  
   if (this.nationalRadioButton && this.internationalRadioButton) {
       this.nationalRadioButton.nativeElement.checked = false;
       this.internationalRadioButton.nativeElement.checked = false;
   }
 
-  // Reset other form values
+
+  
   this.selectedStatus = '';
   this.formDataDegree.startDate = null;
   this.formDataDegree.endDate = null;
@@ -301,6 +312,9 @@ resetFormValues() {
   this.editedNotes = [];
   this.getnotes=[];
   this.isDateValid = true;
+  this.selectedInternationalStatus='';
+  this.selectedNationalStatus = '';
+
 }
   onDocSelected() {
     this.isDocListSelected = !!this.selectedDoc;
@@ -332,10 +346,9 @@ resetFormValues() {
           fileExtension = 'pdf';
         }
   
-        // Use the original file name if available, otherwise use a generic name
-        let fileName = `document.${fileExtension}`;
         
-        // Check if document_name_extension exists and append it to the file name
+        let fileName = `document.${fileExtension}`;
+      
         const documentNameExtension =  this.load.documentNameExtension;
         console.log(this.load)
         if (documentNameExtension) {
@@ -367,6 +380,7 @@ resetFormValues() {
     this.formDataDegree.endDate = degree.endDate;
     this.formDataDegree.issueDate = degree.issueDate;
     this.updateDegree = degree;
+    this.selectedStatus = degree.value;
   
     if (degree.masterType === 'National') {
       this.selectedMasterType = 1;
@@ -384,7 +398,7 @@ resetFormValues() {
         this.selectedDoc = temp.configTable.value;
       this.selectedFile = temp.documentImage;
       this.load = temp;
-      this.selectedStatus = degree.value;
+      
   
       if (this.selectedDoc) {
         this.isDocListSelected = true;
@@ -394,7 +408,7 @@ resetFormValues() {
     this.updateValue(this.selectedMasterType);
   
     setTimeout(() => {
-      
+    
       this.onDegreeSelected();
       this.cdr.detectChanges();
     }, 0);
@@ -421,6 +435,7 @@ resetFormValues() {
         response => {
           this.getDegreeAndUser();
           this.resetFormValues();
+          
         },
         error => {
           this.getDegreeAndUser();
@@ -445,7 +460,7 @@ resetFormValues() {
     this.finalArray = [...this.saveNotes, ...this.notes, ...this.editedNotes];
   
     this.degreeService.deletePostUpdateNotes(this.degreeId, this.finalArray).subscribe((temp) => {
-      console.log(temp);
+   
       this.finalArray = null;
   
   
@@ -473,7 +488,8 @@ resetFormValues() {
       this.saveNotes.push({ note: this.newNote.trim() });
       this.newNote = '';
     }
-    console.log(this.saveNotes);
+    
+    
   }
 
   deleteNote(i: number, note: any): void {
@@ -552,7 +568,7 @@ resetFormValues() {
     }
     this.cancelEditedNote();
   
-    console.log(this.saveNotes);
+ 
   }
 
   cancelEditedNote() {
