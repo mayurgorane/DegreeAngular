@@ -27,38 +27,30 @@
     =            Home middle section            =
     ==========================================-->
   <section class="zm-provider-middle" style="min-height: 500px;">
-    <div class="zm-prov-sidebar">
+    <div class="zm-prov-sidebar" style="width: 250px; height: 100%; overflow-y: auto;">
       <a href="#" class="zm-prov-sidebar-back"> Back</a>
       <div class="zm-provmenu-container">
-
         <a class="zm-sidemenu-collapser" data-toggle="collapse" href="#proffessional" role="button"
           aria-expanded="false" aria-controls="proffessional">Degree<i class="mdi mdi-chevron-down"></i></a>
-          <div class="collapse" id="proffessional">
-            <ul>
-              <li *ngFor="let item of degrees">
-                <a href="javascript:void(0);" (click)="scrollToDegree(item.degreeId)">{{ item.value }}</a>
-              </li>
-            </ul>
-          </div>
-
-        <div class="collapse show" id="insurance">
+        <div class="collapse" id="proffessional">
           <ul>
-            <li class="active"><a href="#">Degree Information</a></li>
+            <li *ngFor="let item of degrees">
+              <a href="javascript:void(0);" (click)="scrollToDegree(item.degreeId)">{{ item.value }}</a>
+            </li>
           </ul>
         </div>
       </div>
     </div>
 
-    <div class="zm-prov-middle">
-      <div class="zm-prov-topbar">
-        <img src="../assets/images/userIcon.png" alt="User">
+    <div class="zm-prov-middle" style="margin-left: -100px;width: 925px;">
+      <div class="zm-prov-topbar" >
+        <img src="../assets/images/userIcon.png" alt="User" style="margin-top: -12px;">
         <div class="zm-prov-topbar-content">
           <h2>{{ user?.userName }}</h2>
-
         </div>
       </div>
       <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal"
-          (click)="resetFormValues()">Add Degree</a></div>
+          (click)="resetFormValues()" style="margin-top: -15.5px;">Add Degree</a></div>
           <div class="center-container" *ngIf="degrees.length === 0">
             <p style="color: grey;">No Degrees present</p>
           </div>

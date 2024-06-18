@@ -107,18 +107,28 @@ export class AppComponent {
     }
   }
    
- updateValue(element: number) {
-  const previousSelectedStatus = this.selectedStatus;
+  private selectedNationalStatus: string = '';
+private selectedInternationalStatus: string = '';
+
+updateValue(element: number) {
+ 
+  if (this.selectedMasterType === 1) {
+    this.selectedNationalStatus = this.selectedStatus;
+  } else if (this.selectedMasterType === 2) {
+    this.selectedInternationalStatus = this.selectedStatus;
+  }
 
   this.selectedMasterType = element;
   this.degreeService.getListOfConfig(element).subscribe((val) => {
     this.config = val;
   });
- 
+
   if (element === 1 || element === 2) {
     this.isNationalOrInternationalSelected = true;
-    if (previousSelectedStatus !== null && previousSelectedStatus !== undefined) {
-      this.selectedStatus = previousSelectedStatus;
+    if (element === 1 && this.selectedNationalStatus) {
+      this.selectedStatus = this.selectedNationalStatus;
+    } else if (element === 2 && this.selectedInternationalStatus) {
+      this.selectedStatus = this.selectedInternationalStatus;
     } else {
       this.selectedStatus = '';
     }
