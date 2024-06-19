@@ -15,12 +15,17 @@ import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule 
  
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { VersionModalComponent } from './version-modal/version-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
  
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent 
+    NavbarComponent,
+    VersionModalComponent 
   ],
   imports: [
     
@@ -35,12 +40,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
    BrowserModule,
    FormsModule,
-
+   NgbModalModule,
    BrowserAnimationsModule,
     MatNativeDateModule,
    ReactiveFormsModule,
  
- 
+   NgbModule,
+   MatDialogModule
   
     
   ],

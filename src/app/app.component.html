@@ -15,6 +15,7 @@
     rel="stylesheet" />
   <link href="../assets/css/lib.css" rel="stylesheet">
   <link href="../assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css">
 </head>
@@ -51,9 +52,12 @@
       </div>
       <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal"
           (click)="resetFormValues()" style="margin-top: -15.5px;">Add Degree</a></div>
+          
           <div class="center-container" *ngIf="degrees.length === 0">
             <p style="color: grey;">No Degrees present</p>
           </div>
+
+
       <div *ngFor="let degree of degrees" [id]="'degree-' + degree.degreeId">
      
         <div class="zm-provider-display mt-4">
@@ -128,10 +132,13 @@
 
 
       </div>
+ 
     </div>
-
+    
+   
 
   </section>
+ 
 
   <!-- Modal -->
   <div class="modal right fade" id="degreeModal" tabindex="-1" role="dialog" aria-labelledby="degreeModalLabel">
@@ -227,24 +234,28 @@
 
                 <div *ngFor="let note of getnotes; let i = index" class="zm-notes-item">
                   <div class="note-header">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <span class="note-text">{{ note.note }}</span>
-                      <span class="note-text" *ngIf="note.version">v{{note.version}}</span>
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown"  (click)="openModal(note)">
+                      <span class="note-text">{{ note.note | slice:0:30 }}</span>
+                    
                       <span class="note-text" *ngIf="!note.version">v1</span>
                     </a>
                     <div class="button-group">
-                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i,note)">Delete</button>
-                      <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">Edit</button>
+                      <span class="note-text" *ngIf="note.version">v{{note.version}}</span>
+                      <button class="btn btn-sm btn-danger" (click)="deleteNote(i, note)">
+                        <i class="fas fa-trash"></i> <!-- Icon for delete -->
+                      </button>
+                      <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">
+                        <i class="fas fa-pencil-alt"></i> <!-- Icon for edit -->
+                      </button>
                     </div>
                       </div>
-                  <div class="dropdown-menu">
+                    <div class="dropdown-menu">
                     <div class="zm-note-detail">
                       <h3>{{ note.note }}</h3>
                     </div>
                   </div>
                 </div>
               </div>
-
               <textarea placeholder="Add new note" (input)="checkNote()" [(ngModel)]="newNote"></textarea>
               <div class="button-group">
                 <button class="btn" *ngIf="!isEditMode" [disabled]="!isNoteThere " (click)="saveNote()">Add
@@ -253,9 +264,31 @@
                   (click)="saveEditedNote()">Edit</button>
                 <button class="btn" *ngIf="isEditMode" (click)="cancelEditedNote()">Cancel</button>
               </div>
-
+              </div>
+           </div>
+           
+           <!-- getVersions -->
+           <ng-template #noteModal let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title">Note Versions</h5>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </div>
+            <div class="modal-body" style="max-height: 300px; overflow-y: auto;">
+              <div *ngFor="let version of noteVersions" class="version-container">
+                <div class="version-header">
+                  <div class="version-number">Version {{ version.version }}:</div>
+                  <div class="created-date">Created on {{ version.createdNotesDate | date:'dd-MM-yyyy' }}</div>
+                </div>
+                <p>{{ version.note }}</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+            </div>
+          </ng-template>
+
  
           <div class="zm-popup-datarow cols2multi">
             <div class="row">
@@ -327,7 +360,12 @@
   </div><!-- modal -->
 
   <!--====  End of Home middle section  ====-->
-
+  <div class="pagination-container">
+    <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
+    <span *ngIf="totalPages===0">Page {{page + 1}} of {{1}}</span>
+    <span *ngIf="totalPages!==0">Page {{page + 1}} of {{totalPages}}</span>
+    <button (click)="nextPage()" [disabled]="page === (totalPages - 1)">Next</button>
+  </div>
   <!--=================================
     =            Main Footer            =
     ==================================-->
@@ -430,6 +468,7 @@
     /*=====  End of More Text Content  ======*/
 
   </script>
+  
 </body>
 
 </html>

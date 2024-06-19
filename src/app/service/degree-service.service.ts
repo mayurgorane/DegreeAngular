@@ -20,9 +20,8 @@ export class DegreeServiceService {
       
   }
 
-  getDegreeById(userId: number): Observable<Degree[]> {
-    return this.http.get<Degree[]>(`http://192.168.21.39:9090/degree/user/${userId}`);
-      
+  getDegreeById(userId: number, page: number, size: number): Observable<Degree[]> {
+    return this.http.get<Degree[]>(`http://192.168.21.39:9090/degree/user/${userId}?page=${page}&size=${size}`);
   }
 
   getDegreeInfo(degreeId: number): Observable<any> {
@@ -89,7 +88,11 @@ deletePostUpdateNotes(degreeId: number,data: any):Observable<any>{
   return this.http.post<any>(`http://192.168.21.39:9090/degreeId/${degreeId}/notes`,data);
   
  }
-
+  
+ getNoteVersions(degreeId: number,groupId:number): Observable<any[]> {
+  return this.http.get<any[]>(`http://192.168.21.39:9090/degreeId/${degreeId}/notes/groupId/${groupId}`);
+    
+}
   
 
 }

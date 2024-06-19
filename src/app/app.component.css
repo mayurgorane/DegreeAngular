@@ -99,9 +99,70 @@ body {
 .ad-footer {
   margin-top: auto;
 }
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  padding: 10px 0;
+  margin-left: -2px;  
+}
+
+.pagination-container button {
+  padding: 8px 16px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.pagination-container button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pagination-container span {
+  margin: 0 10px;
+}
 .center-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 50vh; /* Full height of the viewport */
+  justify-content: center;
+  align-items: center;
+  margin-left: -197px;  
+  height: 50px;
+  margin-top: 150px;
+  margin-bottom: 0px; /* Set height to 100% of viewport height */
 }
+.modal {
+  z-index: 1050; /* Ensure modal is above backdrop */
+}
+
+/* Backdrop styles */
+.modal-backdrop {
+  z-index: 1040; /* Ensure backdrop is below modal */
+}
+
+.version-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.version-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.version-number {
+  font-weight: bold;
+}
+
+.created-date {
+  align-self: flex-end;
+  font-size: 0.8em;
+  color: #888;
+}
+

@@ -1,9 +1,12 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, TemplateRef, ViewChild } from '@angular/core';
 import { DegreeServiceService } from './service/degree-service.service';
 import { User } from './Models/User';
 import { Degree } from './Models/Degree';
 import { AddDegree } from './Models/AddDegree';
 import { HttpClient } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; 
+import { MatDialog } from '@angular/material/dialog';
+import { VersionModalComponent } from './version-modal/version-modal.component';
  
 
 @Component({
@@ -14,6 +17,9 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   user: User;
   degrees: Degree[] = [];
+  page: number = 0;  
+  size: number = 2;  
+  totalPages: number;
 
   config :any=[];
   selectedMasterType: number;
@@ -46,7 +52,9 @@ export class AppComponent {
   constructor(
     private degreeService: DegreeServiceService,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modalService: NgbModal,
+    public dialog: MatDialog
   ) {
     this.getDegreeAndUser();
     this.getListOfConfigForDoc();
@@ -55,6 +63,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.todayDate = this.formatDate(new Date());
+   
   }
 
   ngAfterViewInit() {
@@ -75,23 +84,29 @@ export class AppComponent {
     this.degreeService.getUserById(userId).subscribe((user) => {
       this.user = user;
     });
-    this.degreeService.getDegreeById(userId).subscribe((degrees) => {
-      this.degrees = degrees;
+    
+    this.degreeService.getDegreeById(userId, this.page, this.size).subscribe((response: any) => {
+      this.degrees = response.content;
+      this.totalPages = response.page.totalPages;
+    
       this.degrees.forEach((degree) => {
         this.degreeService.getDegreeInfo(degree.degreeId).subscribe((data) => {
           degree.masterType = data.type;
           degree.value = data.value;
         });
       });
+    }, (error) => {
+      console.error('Error loading degrees:', error);
     });
   }
 
   deleteDegreeById(degreeId: number) {
- 
     this.degreeService.deleteDegree(degreeId).subscribe(() => {
       setTimeout(() => {
-        this.getDegreeAndUser();
-       
+        if (this.degrees.length === 1 && this.page > 0) {
+          this.page--;
+        }
+        this.getDegreeAndUser(); 
       }, 100);
     });
   }
@@ -217,7 +232,7 @@ this.selectedInternationalStatus= ''
     return this.isDateValid;
   }
 
-  newNote: string;
+  newNote: any;
   version: number;
   groupId: number;
   notes: { note: string, version?: number, groupId?: number }[] = [];
@@ -500,6 +515,8 @@ resetFormValues() {
         note: deleteNote.note,
         version: deleteNote.version,
         groupId: deleteNote.groupId
+
+
       });
     }
     this.getnotes.splice(i, 1);
@@ -514,7 +531,7 @@ resetFormValues() {
 
   editedNotes: any[] = [];
   isEditMode: boolean = false;
-  editedNote: string;
+  editedNote: any;
   selectedEditedNote: any;
   selectedEditedNoteIndex:number;
   
@@ -588,4 +605,32 @@ resetFormValues() {
       element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
     }
   }
+  prevPage() {
+    if (this.page > 0) {
+      this.page--;  
+      this.getDegreeAndUser();  
+    }
+  }
+  
+ nextPage() {
+  if ( this.page < this.totalPages - 1) {
+    this.page++;
+    this.getDegreeAndUser();
+  }
+}
+noteVersions:any=[];
+@ViewChild('noteModal') noteModal: TemplateRef<any>;
+
+openModal(note:any) {
+  if (this.updateDegree && note.version !== 1) {
+    this.modalService.open(this.noteModal, { centered: true, backdrop: false });
+    this.degreeService.getNoteVersions(this.degreeId,note.groupId).subscribe((res)=>{
+      this.noteVersions = res;
+    })
+  }
+}
+ 
+
+ 
+
 }
