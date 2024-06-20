@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="favicon.png">
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="icon" href="favicon.png" />
 
   <title>Z Mark</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
     rel="stylesheet" />
-  <link href="../assets/css/lib.css" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="../assets/css/lib.css" rel="stylesheet" />
+  <link href="../assets/css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" />
 </head>
 
 <body>
@@ -27,8 +27,8 @@
   <!--=========================================
     =            Home middle section            =
     ==========================================-->
-  <section class="zm-provider-middle" style="min-height: 500px;margin-top: -20px;">
-    <div class="zm-prov-sidebar" style="width: 250px; height: 100%; overflow-y: auto;">
+  <section class="zm-provider-middle" style="min-height: 500px; margin-top: -20px">
+    <div class="zm-prov-sidebar" style="width: 250px; height: 100%; overflow-y: auto">
       <a href="#" class="zm-prov-sidebar-back"> Back</a>
       <div class="zm-provmenu-container">
         <a class="zm-sidemenu-collapser" data-toggle="collapse" href="#proffessional" role="button"
@@ -43,48 +43,50 @@
       </div>
     </div>
 
-    <div class="zm-prov-middle" style="margin-left: -100px;width: 925px;">
-      <div class="zm-prov-topbar" >
-        <img src="../assets/images/userIcon.png" alt="User" style="margin-top: -12px;">
+    <div class="zm-prov-middle" style="margin-left: -100px; width: 925px">
+      <div class="zm-prov-topbar">
+        <img src="../assets/images/userIcon.png" alt="User" style="margin-top: -12px" />
         <div class="zm-prov-topbar-content">
           <h2>{{ user?.userName }}</h2>
         </div>
       </div>
-      <div class="zm-prov-topbar-action"><a class="btn btn-default" data-toggle="modal" data-target="#degreeModal"
-          (click)="resetFormValues()" style="margin-top: -15.5px;">Add Degree</a></div>
-          
-          <div class="center-container" *ngIf="degrees.length === 0">
-            <p style="color: grey;">No Degrees present</p>
-          </div>
+      <div class="zm-prov-topbar-action">
+        <a class="btn btn-default" data-toggle="modal" data-target="#degreeModal" (click)="resetFormValues()"
+          style="margin-top: -15.5px">Add Degree</a>
+      </div>
 
+      <div class="center-container" *ngIf="degrees.length === 0">
+        <p style="color: grey">No Degrees present</p>
+      </div>
 
       <div *ngFor="let degree of degrees" [id]="'degree-' + degree.degreeId">
-     
         <div class="zm-provider-display mt-4">
           <div class="zm-provider-display-heading justify-content-between align-items-center">
             <h2>Degree Information</h2>
             <div class="buttons-group">
-              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal" (click)="update(degree)">
+              <button type="button" class="btn btn-secondary edit" data-toggle="modal" data-target="#degreeModal"
+                (click)="update(degree)">
                 <i class="mdi mdi-pencil"></i>Edit
               </button>
-              <button type="button" class="btn btn-secondary remove" data-dismiss="modal" (click)="confirmDelete(degree.degreeId)">
+              <button type="button" class="btn btn-secondary remove" data-dismiss="modal"
+                (click)="confirmDelete(degree.degreeId)">
                 <i class="mdi mdi-delete"></i>Remove
               </button>
             </div>
           </div>
-     
+
           <div class="zm-provider-display-body">
             <div class="row">
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Degree Name</h3>
-                  <p>{{degree.value}}</p>
+                  <p>{{ degree.value }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Degree Type</h3>
-                  <p>{{degree.masterType}}</p>
+                  <p>{{ degree.masterType }}</p>
                 </div>
               </div>
             </div>
@@ -93,25 +95,25 @@
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Created Date</h3>
-                  <p>{{ degree.createdDate | date: 'dd-MM-yyyy' }}</p>
+                  <p>{{ degree.createdDate | date : "dd-MM-yyyy" }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Start Date</h3>
-                  <p>{{ degree.startDate | date: 'dd-MM-yyyy' }}</p>
+                  <p>{{ degree.startDate | date : "dd-MM-yyyy" }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>End Date</h3>
-                  <p>{{ degree.endDate | date: 'dd-MM-yyyy' }}</p>
+                  <p>{{ degree.endDate | date : "dd-MM-yyyy" }}</p>
                 </div>
               </div>
               <div class="col-xl-3 col-sm-6">
                 <div class="zm-provider-display-details">
                   <h3>Issue Date</h3>
-                  <p>{{ degree.issueDate | date: 'dd-MM-yyyy' }}</p>
+                  <p>{{ degree.issueDate | date : "dd-MM-yyyy" }}</p>
                 </div>
               </div>
             </div>
@@ -120,96 +122,114 @@
                 <div class="zm-provider-display-details">
                   <h3>Modified Date</h3>
                   <p>
-                    {{ degree.modifiedDate ? (degree.modifiedDate | date: 'dd-MM-yyyy') : 'Not modified yet' }}
+                    {{
+                    degree.modifiedDate
+                    ? (degree.modifiedDate | date : "dd-MM-yyyy")
+                    : "Not modified yet"
+                    }}
                   </p>
                 </div>
               </div>
             </div>
-
-         
           </div>
         </div>
-
-
       </div>
- 
     </div>
-    
-   
-
   </section>
- 
 
   <!-- Modal -->
-  <div class="modal right fade" id="degreeModal" tabindex="-1" role="dialog" aria-labelledby="degreeModalLabel">
+  <div class="modal right fade" id="degreeModal" tabindex="-1" role="dialog" aria-labelledby="degreeModalLabel"
+    data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-
         <div class="modal-header">
-          <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="!updateDegree">Add Degree</h4>
-          <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="updateDegree">Update Degree</h4>
+          <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="!updateDegree">
+            Add Degree
+          </h4>
+          <h4 class="modal-title text-left" id="myModalLabel2" *ngIf="updateDegree">
+            Update Degree
+          </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetFormValues()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-
           <form>
-            <div class="form-row" >
+            <div class="form-row">
               <div class="form-group">
                 <label>Choose National or International:</label>
-                <input type="radio" id="national" name="payorType" value="1"  (change)="updateValue(1)"
-                  #nationalRadioButton> National<br>
+                <input type="radio" id="national" name="payorType" value="1" (change)="updateValue(1)"
+                  #nationalRadioButton />
+                National<br />
                 <input type="radio" id="international" name="payorType" value="2" (change)="updateValue(2)"
-                  #internationalRadioButton> International<br>
+                  #internationalRadioButton />
+                International<br />
               </div>
               <div class="form-group col-md-4">
                 <label>Select Degree</label>
                 <select class="form-control zm-select" [(ngModel)]="selectedStatus" name="selectedStatus"
                   [disabled]="!isNationalOrInternationalSelected" (change)="onDegreeSelected()">
                   <option disabled selected value="">Select Degree</option>
-                  <option *ngFor="let con of config" [value]="con.value">{{ con.value }}</option>
+                  <option *ngFor="let con of config" [value]="con.value">
+                    {{ con.value }}
+                  </option>
                 </select>
               </div>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label>Start Date</label>
                 <input type="date" class="form-control" [(ngModel)]="formDataDegree.startDate" name="startDate"
-                       (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate">
-                <input type="hidden" [ngModel]="formDataDegree.startDate | date: 'yyyy-MM-dd'" name="startDateFormatted">
+                  (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate" />
+                <input type="hidden" [ngModel]="formDataDegree.startDate | date : 'yyyy-MM-dd'"
+                  name="startDateFormatted" />
               </div>
               <div class="form-group col-md-4">
                 <label>End Date</label>
                 <input type="date" class="form-control" [(ngModel)]="formDataDegree.endDate" name="endDate"
-                       (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate">
-                <input type="hidden" [ngModel]="formDataDegree.endDate | date: 'yyyy-MM-dd'" name="endDateFormatted">
+                  (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate" />
+                <input type="hidden" [ngModel]="formDataDegree.endDate | date : 'yyyy-MM-dd'" name="endDateFormatted" />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label>Issue Date</label>
                 <input type="date" class="form-control" [(ngModel)]="formDataDegree.issueDate" name="issueDate"
-                       (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate">
-                <input type="hidden" [ngModel]="formDataDegree.issueDate | date: 'yyyy-MM-dd'" name="issueDateFormatted">
+                  (change)="validateForm()" [disabled]="!isDegreeSelected" [max]="todayDate" />
+                <input type="hidden" [ngModel]="formDataDegree.issueDate | date : 'yyyy-MM-dd'"
+                  name="issueDateFormatted" />
               </div>
             </div>
-            <div class="error-message small-text" *ngIf="!isDateValid && startDateGreaterThanEndDate && endDateGreaterThanIssueDate">
-              Error: Start date is greater than end date. End date is greater than issue date.
+            <div class="error-message small-text" *ngIf="
+                  !isDateValid &&
+                  startDateGreaterThanEndDate &&
+                  endDateGreaterThanIssueDate
+                ">
+              Error: Start date is greater than end date. End date is greater
+              than issue date.
             </div>
-            <div class="error-message small-text" *ngIf="!isDateValid && startDateGreaterThanEndDate && !endDateGreaterThanIssueDate">
+            <div class="error-message small-text" *ngIf="
+                  !isDateValid &&
+                  startDateGreaterThanEndDate &&
+                  !endDateGreaterThanIssueDate
+                ">
               Error: Start date is greater than end date.
             </div>
-            <div class="error-message small-text" *ngIf="!isDateValid && !startDateGreaterThanEndDate && endDateGreaterThanIssueDate">
+            <div class="error-message small-text" *ngIf="
+                  !isDateValid &&
+                  !startDateGreaterThanEndDate &&
+                  endDateGreaterThanIssueDate
+                ">
               Error: End date is greater than issue date.
             </div>
-         <div class="form-row">
+            <div class="form-row">
               <div class="form-group col-md-6">
                 <div class="zm-datepicker-display">
                   <label>Created Date</label>
                   <div class="zm-datepicker-display-content">
-                    <input type="text" name="createdDate" [value]="todayDate" readonly> by {{ user?.userName }}
+                    <input type="text" name="createdDate" [value]="todayDate" readonly />
+                    by {{ user?.userName }}
                   </div>
                 </div>
               </div>
@@ -217,39 +237,48 @@
                 <div class="zm-datepicker-display">
                   <label>Last Updated Date</label>
                   <div class="zm-datepicker-display-content" *ngIf="updateDegree">
-                    <input type="text" name="lastUpdatedDate" [value]="updateDegree.modifiedDate | date: 'dd-MM-yyyy'" readonly> by {{ user?.userName }}
+                    <input type="text" name="lastUpdatedDate" [value]="
+                          updateDegree.modifiedDate | date : 'dd-MM-yyyy'
+                        " readonly />
+                    by {{ user?.userName }}
                   </div>
                   <div class="zm-datepicker-display-content" *ngIf="!updateDegree">
-                    <input type="text" name="lastUpdatedDate" [value]="todayDate" readonly> by {{ user?.userName }}
+                    <input type="text" name="lastUpdatedDate" [value]="todayDate" readonly />
+                    by {{ user?.userName }}
                   </div>
                 </div>
               </div>
-             
             </div>
           </form>
           <div class="form-row row">
             <div class="form-group col-md-12 zm-notes">
               <label>Note</label>
               <div class="zm-notes-list">
-
                 <div *ngFor="let note of getnotes; let i = index" class="zm-notes-item">
                   <div class="note-header">
-                    <a href="" class="dropdown-toggle" data-toggle="dropdown"  (click)="openModal(note)">
-                      <span class="note-text">{{ note.note | slice:0:30 }}</span>
-                    
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown" (click)="openModal(note)">
+                      <span class="note-text">{{
+                        note.note.length > 30
+                        ? (note.note | slice : 0 : 30) + "...."
+                        : note.note
+                        }}</span>
+
                       <span class="note-text" *ngIf="!note.version">v1</span>
                     </a>
                     <div class="button-group">
-                      <span class="note-text" *ngIf="note.version">v{{note.version}}</span>
+                      <span class="note-text1" *ngIf="note.version">v{{ note.version }}</span>
                       <button class="btn btn-sm btn-danger" (click)="deleteNote(i, note)">
-                        <i class="fas fa-trash"></i> <!-- Icon for delete -->
+                        <i class="fas fa-trash"></i>
+                        <!-- Icon for delete -->
                       </button>
                       <button class="btn btn-sm btn-danger" *ngIf="updateDegree" (click)="editNote(i)">
-                        <i class="fas fa-pencil-alt"></i> <!-- Icon for edit -->
+                        <i class="fas fa-pencil-alt"></i>
+                        <!-- Icon for edit -->
                       </button>
+                     
                     </div>
-                      </div>
-                    <div class="dropdown-menu">
+                  </div>
+                  <div class="dropdown-menu">
                     <div class="zm-note-detail">
                       <h3>{{ note.note }}</h3>
                     </div>
@@ -258,113 +287,131 @@
               </div>
               <textarea placeholder="Add new note" (input)="checkNote()" [(ngModel)]="newNote"></textarea>
               <div class="button-group">
-                <button class="btn" *ngIf="!isEditMode" [disabled]="!isNoteThere " (click)="saveNote()">Add
-                  Note</button>
-                <button class="btn" *ngIf="isEditMode" [disabled]="!isNoteThere"
-                  (click)="saveEditedNote()">Edit</button>
-                <button class="btn" *ngIf="isEditMode" (click)="cancelEditedNote()">Cancel</button>
+                <button class="btn" *ngIf="!isEditMode" [disabled]="!isNoteThere" (click)="saveNote()">
+                  Add Note
+                </button>
+                <button class="btn" *ngIf="isEditMode" [disabled]="!isNoteThere" (click)="saveEditedNote()">
+                  Edit
+                </button>
+                <button class="btn" *ngIf="isEditMode" (click)="cancelEditedNote()">
+                  Cancel
+                </button>
               </div>
-              </div>
-           </div>
-           
-           <!-- getVersions -->
-           <ng-template #noteModal let-modal>
+            </div>
+          </div>
+
+          <!-- getVersions -->
+          <ng-template #noteModal let-modal>
             <div class="modal-header">
               <h5 class="modal-title">Note Versions</h5>
               <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body" style="max-height: 300px; overflow-y: auto;">
+            <div class="modal-body" style="max-height: 300px; overflow-y: auto">
               <div *ngFor="let version of noteVersions" class="version-container">
                 <div class="version-header">
-                  <div class="version-number">Version {{ version.version }}:</div>
-                  <div class="created-date">Created on {{ version.createdNotesDate | date:'dd-MM-yyyy' }}</div>
+                  <div class="version-number">
+                    Version {{ version.version }}:
+                  </div>
+                  <div class="created-date">
+                    Created on
+                    {{ version.createdNotesDate | date : "dd-MM-yyyy" }}
+                  </div>
                 </div>
                 <p>{{ version.note }}</p>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
+              <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">
+                Close
+              </button>
             </div>
           </ng-template>
 
- 
           <div class="zm-popup-datarow cols2multi">
             <div class="row">
-          
               <div class="col-md-5">
                 <div class="zm-popup-item">
                   <label>Select Document</label>
                   <select class="form-control zm-select" [(ngModel)]="selectedDoc" (click)="onDocSelected()"
-                          [ngModelOptions]="{standalone: true}">
-                    <option disabled selected value="">Select Document</option>
-                    <option *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">{{ doc.value }}</option>
+                    [ngModelOptions]="{ standalone: true }">
+                    <option disabled selected value="">
+                      Select Document
+                    </option>
+                    <option *ngFor="let doc of ListOfConfigForDoc" [value]="doc.value">
+                      {{ doc.value }}
+                    </option>
                   </select>
                 </div>
               </div>
-          
+
               <div class="col-md-7">
                 <div class="zm-popup-item">
                   <label>Document Name</label>
                   <input type="text" class="form-control" id="documentName" placeholder="" [(ngModel)]="documentName"
-                         [disabled]="!isDocListSelected">
+                    [disabled]="!isDocListSelected" />
                 </div>
               </div>
-          
+
               <div class="col-md-7">
                 <div class="zm-popup-item">
                   <label>Receive Date</label>
                   <input type="date" class="form-control" id="receiveDate" placeholder="" [(ngModel)]="receiveDate"
-                         [disabled]="!isDocListSelected">
+                    [disabled]="!isDocListSelected" />
                 </div>
               </div>
-              
+
               <div class="col-md-7">
                 <div class="zm-popup-item upload-section">
-                  <label class="custom-file-upload" >
-                    <input type="file"  (change)="onFileSelected($event)" [disabled]="!isDocListSelected">
+                  <label class="custom-file-upload">
+                    <input type="file" (change)="onFileSelected($event)" [disabled]="!isDocListSelected" />
                     Choose File
                   </label>
                   <label>Upload Document</label>
                   <div>
-             <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
-            </div>
-
+                    <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+                  </div>
                 </div>
               </div>
-          
+
               <div class="col-md-7">
                 <button class="btn btn-sm btn-secondary py-0 px-1" *ngIf="updateDegree" (click)="downloadImage()">
                   Download
                 </button>
               </div>
-          
             </div>
           </div>
-
         </div>
-
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close"
-            [disabled]="isFormInvalid()  " *ngIf="!updateDegree" (click)="saveDocument()"><i
-              class="mdi mdi-plus"></i>Save</button>
-          <button type="button" class="btn btn-secondary close" data-dismiss="modal" aria-label="Close"
-            [disabled]="isFormInvalid()" *ngIf="updateDegree" (click)="updateDoc()"><i
-              class="mdi mdi-plus"></i>Update</button>
-          <button type="button" class="btn btn-secondary close" data-dismiss="modal" (click)="resetFormValues()">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close"
+            [disabled]="isFormInvalid()" *ngIf="!updateDegree" (click)="saveDocument()"
+            [@buttonAnimation]="buttonState">
+            <i class="mdi mdi-plus"></i> Save
+          </button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close"
+            [disabled]="isFormInvalid()" *ngIf="updateDegree" (click)="updateDoc()" [@buttonAnimation]="buttonState">
+            <i class="mdi mdi-plus"></i> Update
+          </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetFormValues()">
+            Cancel
+          </button>
         </div>
-
-      </div><!-- modal-content -->
-    </div><!-- modal-dialog -->
-  </div><!-- modal -->
+      </div>
+      <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+  </div>
+  <!-- modal -->
 
   <!--====  End of Home middle section  ====-->
   <div class="pagination-container">
     <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
-    <span *ngIf="totalPages===0">Page {{page + 1}} of {{1}}</span>
-    <span *ngIf="totalPages!==0">Page {{page + 1}} of {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="page === (totalPages - 1)">Next</button>
+    <span *ngIf="totalPages === 0">Page {{ page + 1 }} of {{ 1 }}</span>
+    <span *ngIf="totalPages !== 0">Page {{ page + 1 }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="page === totalPages - 1">
+      Next
+    </button>
   </div>
   <!--=================================
     =            Main Footer            =
@@ -378,7 +425,6 @@
 
   <!--====  End of Main Footer  ====-->
 
-
   <script src="../assets/js/jquery.min.js"></script>
 
   <!-- Bootstrap core JavaScript
@@ -386,7 +432,9 @@
   <!-- Placed at the end of the document so the pages load faster -->
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <!--[if lt IE 9]><script src="js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <!--[if lt IE 9
+      ]><script src="js/ie8-responsive-file-warning.js"></script
+    ><![endif]-->
   <script src="js/ie-emulation-modes-warning.js"></script>
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -403,49 +451,54 @@
   <script src="../assets/js/slick.min.js"></script>
   <script src="../assets/js/comman.js"></script>
   <script type="text/javascript">
-    $('#effectivedate').datepicker({
+    $("#effectivedate").datepicker({
       weekStart: 1,
       daysOfWeekHighlighted: "6,0",
       autoclose: true,
       todayHighlight: true,
     });
-    $('#effectivedate').datepicker("setDate", new Date());
-    $('#endeffectivedate').datepicker({
+    $("#effectivedate").datepicker("setDate", new Date());
+    $("#endeffectivedate").datepicker({
       weekStart: 1,
       daysOfWeekHighlighted: "6,0",
       autoclose: true,
       todayHighlight: true,
     });
-    $('#endeffectivedate').datepicker("setDate", new Date());
+    $("#endeffectivedate").datepicker("setDate", new Date());
 
     /*=========================================
-    =            More Text Content            =
-    =========================================*/
+  =            More Text Content            =
+  =========================================*/
     $(document).ready(function () {
       // Configure/customize these variables.
-      var showChar = 100;  // How many characters are shown by default
+      var showChar = 100; // How many characters are shown by default
       var ellipsestext = "...";
       var moretext = "Show more >";
       var lesstext = "Show less";
 
-
-      $('.more').each(function () {
+      $(".more").each(function () {
         var content = $(this).html();
 
         if (content.length > showChar) {
-
           var c = content.substr(0, showChar);
           var h = content.substr(showChar, content.length - showChar);
 
-          var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+          var html =
+            c +
+            '<span class="moreellipses">' +
+            ellipsestext +
+            '&nbsp;</span><span class="morecontent"><span>' +
+            h +
+            '</span>&nbsp;&nbsp;<a href="" class="morelink">' +
+            moretext +
+            "</a></span>";
 
           $(this).html(html);
         }
-
       });
 
       $(".morelink").click(function () {
-        $('.morelink').each(function () {
+        $(".morelink").each(function () {
           if ($(this).hasClass("less")) {
             $(this).removeClass("less");
             $(this).html(moretext);
@@ -466,9 +519,7 @@
       });
     });
     /*=====  End of More Text Content  ======*/
-
   </script>
-  
 </body>
 
 </html>

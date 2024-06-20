@@ -17,15 +17,14 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { VersionModalComponent } from './version-modal/version-modal.component';
+ 
 import { MatDialogModule } from '@angular/material/dialog';
  
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    VersionModalComponent 
+    NavbarComponent 
   ],
   imports: [
     

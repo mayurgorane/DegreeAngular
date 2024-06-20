@@ -165,4 +165,45 @@ body {
   font-size: 0.8em;
   color: #888;
 }
+.note-text1 {
+  font-size: 0.8em; /* Adjust the font size as needed */
+  color: #999; /* Adjust the color as needed */
+  margin-left: 5px; /* Adjust the margin as needed */
+  font-style: italic; /* Add italic style */
+}
+/* Ensure the main container takes the full height of the viewport */
+.zm-provider-middle {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+/* Sidebar styling */
+.zm-prov-sidebar {
+  flex: 0 0 250px; /* Sidebar fixed width */
+  display: flex;
+  flex-direction: column;
+  height: auto; /* Let the height be determined by content */
+  min-height: 100vh; /* Minimum height to fill the viewport */
+  border-right: 1px solid #ddd; /* Sidebar border */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+/* Adjust the middle content area */
+.zm-prov-middle {
+  flex: 1;
+  padding: 20px;
+  margin-left: -100px;
+  width: calc(100% - 250px); /* Adjust width based on sidebar */
+}
+.btn {
+  transition: transform 0.2s, opacity 0.2s;
+}
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+
+
+
 
