@@ -75,6 +75,16 @@ export class AppComponent {
     issueDate: null,
   };
 
+  
+  getnotes: any = [];
+  saveNotes: any[] = [];
+  isNoteThere: boolean = false;
+  editedNotes: any[] = [];
+  isEditMode: boolean = false;
+  editedNote: any;
+  selectedEditedNote: any;
+  selectedEditedNoteIndex: number;
+
   @ViewChild('nationalRadioButton') nationalRadioButton;
   @ViewChild('internationalRadioButton') internationalRadioButton;
 
@@ -414,7 +424,9 @@ export class AppComponent {
     );
   }
 
-  getnotes: any = [];
+
+  
+
 
   update(degree: any) {
     this.degreeId = degree.degreeId;
@@ -514,8 +526,7 @@ export class AppComponent {
     this.getDegreeAndUser();
   }
 
-  saveNotes: any[] = [];
-  isNoteThere: boolean = false;
+
 
   checkNote() {
     this.isNoteThere = this.newNote.trim().length > 0;
@@ -555,11 +566,7 @@ export class AppComponent {
     }
   }
 
-  editedNotes: any[] = [];
-  isEditMode: boolean = false;
-  editedNote: any;
-  selectedEditedNote: any;
-  selectedEditedNoteIndex: number;
+ 
 
   editNote(i: number) {
     this.isEditMode = true;
