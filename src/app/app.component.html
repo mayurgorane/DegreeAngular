@@ -266,8 +266,7 @@
                         ? (note.note | slice : 0 : 30) + "...."
                         : note.note
                         }}</span>
-
-                      <span class="note-text" *ngIf="!note.version">v1</span>
+                      <span class="note-text1" style="margin-right: 10px;" *ngIf="!note.version">v1</span>
                     </a>
                     <div class="button-group">
                       <span class="note-text1" *ngIf="note.version">v{{ note.version }}</span>

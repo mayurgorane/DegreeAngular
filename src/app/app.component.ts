@@ -483,14 +483,10 @@ export class AppComponent {
     this.saveNotes = [];
     this.notes = [];
     this.editedNotes = [];
-    
-   
- 
   }
 
   finalArray: any[] = [];
-  
-  
+   
   updateDoc() {
     const temp1 = this.load;
   
@@ -762,9 +758,7 @@ export class AppComponent {
     this.email= null;
     this.username=null;
     this.password=null;
-    this.loginForm.resetForm();
-
-    
+    this.loginForm.resetForm(); 
   }
 
   username:string;

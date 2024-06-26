@@ -31,8 +31,6 @@ import { JwtInterceptor } from './Models/JwtInterceptor';
     NavbarComponent 
   ],
   imports: [
-   
-  
     BrowserModule,
     BrowserAnimationsModule,
     MatDatepickerModule,
