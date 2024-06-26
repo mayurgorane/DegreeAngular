@@ -8,7 +8,7 @@ import { DegreeServiceService } from './service/degree-service.service';
 import { User } from './Models/User';
 import { Degree } from './Models/Degree';
 import { AddDegree } from './Models/AddDegree';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -19,6 +19,8 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+ 
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -95,12 +97,24 @@ export class AppComponent {
     private modalService: NgbModal,
     public dialog: MatDialog
   ) {
-    this.getDegreeAndUser();
-    this.getListOfConfigForDoc();
+ 
+
   }
 
   ngOnInit() {
     this.todayDate = this.formatDate(new Date());
+  
+    if (typeof localStorage !== 'undefined') {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+  
+      if (token && user) {
+        this.isLoggedIn = true;
+        this.user = JSON.parse(user);
+        this.tempUserId = this.user.userId;
+        this.getDegreeAndUser();
+      }
+    }  
   }
 
   ngAfterViewInit() {
@@ -116,7 +130,7 @@ export class AppComponent {
     return `${day}-${month}-${year}`;
   }
   getDegreeAndUser() {
-    const userId = 1;
+    const userId = this.tempUserId;
     this.degreeService.getUserById(userId).subscribe((user) => {
       this.user = user;
     });
@@ -132,6 +146,7 @@ export class AppComponent {
             .subscribe((data) => {
               degree.masterType = data.type;
               degree.value = data.value;
+              this.getListOfConfigForDoc();
             });
         });
       },
@@ -202,7 +217,7 @@ export class AppComponent {
   }
 
   getListOfConfigForDoc() {
-    this.degreeService.getListOfConfigForDoc(3).subscribe((val) => {
+    this.degreeService.getListOfConfigForDoc().subscribe((val) => {
       this.ListOfConfigForDoc = val;
     });
   }
@@ -235,7 +250,8 @@ export class AppComponent {
         .postDegree(
           this.selectedMasterType,
           this.selectedStatus,
-          this.formDataDegree
+          this.formDataDegree,
+          this.user.userId
         )
         .toPromise();
 
@@ -387,8 +403,7 @@ export class AppComponent {
         const blob = new Blob([response]);
         const contentType = response.type;
         let fileExtension = 'unknown';
-
-        // Determine the file extension based on the response content type
+ 
         if (contentType.includes('image/jpeg')) {
           fileExtension = 'jpg';
         } else if (contentType.includes('image/png')) {
@@ -402,7 +417,7 @@ export class AppComponent {
         let fileName = `document.${fileExtension}`;
 
         const documentNameExtension = this.load.documentNameExtension;
-        console.log(this.load);
+  
         if (documentNameExtension) {
           fileName = `document.${documentNameExtension}`;
         }
@@ -424,11 +439,7 @@ export class AppComponent {
     );
   }
 
-
-  
-
-
-  update(degree: any) {
+    update(degree: any) {
     this.degreeId = degree.degreeId;
     this.formDataDegree.startDate = degree.startDate;
     this.formDataDegree.endDate = degree.endDate;
@@ -474,6 +485,7 @@ export class AppComponent {
     this.editedNotes = [];
 
     this.getDegreeAndUser();
+ 
   }
 
   finalArray: any[] = [];
@@ -678,4 +690,115 @@ export class AppComponent {
   toggleButtonState() {
     this.buttonState = this.buttonState === 'enabled' ? 'disabled' : 'enabled';
   }
+
+  isLoggedIn:boolean=false;
+  showEmailField = false;
+  isRegisterClicked = false;
+  buttonText = 'Login';
+  display = ' Register'
+  isDisplayClicked= false
+
+  toggleEmailField() {
+    this.showEmailField = !this.showEmailField;
+    this.isRegisterClicked = !this.isRegisterClicked;
+    this.isDisplayClicked = !this.isDisplayClicked;
+    this.buttonText = this.isRegisterClicked ? 'Register' : 'Login';
+    this.display = this.isDisplayClicked ? 'Login' : 'Register'
+    this.email= null;
+    this.username=null;
+    this.password=null;
+    this.loginForm.resetForm();
+
+    
+  }
+
+  username:string;
+  password:string;
+  tempUserId:number;
+  email:string;
+  role= "ROLE_ADMIN";
+ 
+  submit() {
+
+   if(this.isRegisterClicked){
+    const registerData = { userName: this.username, password: this.password ,email: this.email ,roles:this.role };
+     this.degreeService.register(registerData).subscribe(response=>{
+      if (response && response.token) {
+          localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
+        this.tempUserId = response.user.userId;
+        
+       
+        this.isLoggedIn = true;
+        this.getDegreeAndUser();
+        this.getListOfConfigForDoc();
+         }
+     },
+     (error: HttpErrorResponse) => {
+       
+       if (error.status === 401) {
+          alert('Something went wrong'); 
+       }if(error.status === 409){
+    
+         alert(error.error.error);
+       
+       } 
+     })
+   
+   }else{
+     const loginData = { username: this.username, password: this.password };
+    this.degreeService.login(loginData).subscribe(
+      response => {
+       
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          this.tempUserId = response.user.userId;
+           this.isLoggedIn = true;
+          this.getDegreeAndUser();
+          this.getListOfConfigForDoc();
+
+        
+        }
+      },
+      error => {
+        console.error(error);
+        if (error.status === 401) {
+         
+          alert('Wrong username or password');
+          this.username = null;
+          this.password = null;
+          this.email=null;
+        } 
+      }
+    );
+  }
+ 
+  }
+
+
+ 
+logOut() {
+  this.isLoggedIn = false;
+  if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  }  
+
+  this.user = null;
+  this.degrees = null;
+  this.username = null;
+  this.password = null;
+  this.email = null;
+ this.page=0;
+
+ if(this.isRegisterClicked){
+  this.toggleEmailField(); 
+ }
+ 
+
+}
+@ViewChild('loginForm') loginForm!: NgForm;
+ 
+ 
 }

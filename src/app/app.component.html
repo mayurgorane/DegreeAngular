@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,12 +23,13 @@
 
 <body>
   <!--Nav Bar -->
-  <app-navbar></app-navbar>
+  <app-navbar ></app-navbar>
+  
 
   <!--=========================================
     =            Home middle section            =
     ==========================================-->
-  <section class="zm-provider-middle" style="min-height: 500px; margin-top: -20px">
+  <section class="zm-provider-middle" style="min-height: 500px; margin-top: -20px" *ngIf="isLoggedIn; else loginBox">
     <div class="zm-prov-sidebar" style="width: 250px; height: 100%; overflow-y: auto">
       <a href="#" class="zm-prov-sidebar-back"> Back</a>
       <div class="zm-provmenu-container">
@@ -51,11 +53,15 @@
         </div>
       </div>
       <div class="zm-prov-topbar-action">
+        <div>
         <a class="btn btn-default" data-toggle="modal" data-target="#degreeModal" (click)="resetFormValues()"
-          style="margin-top: -15.5px">Add Degree</a>
-      </div>
-
-      <div class="center-container" *ngIf="degrees.length === 0">
+          style="margin-top: -25.5px;margin-right: 30px;">Add Degree</a>
+         </div>
+         <button class="btn btn-danger " style="margin-top: -25.5px;" (click)="logOut()">Log out</button>
+        </div>
+      
+      
+      <div class="center-container" *ngIf="degrees && degrees.length === 0">
         <p style="color: grey">No Degrees present</p>
       </div>
 
@@ -404,8 +410,47 @@
   </div>
   <!-- modal -->
 
+  <ng-template #loginBox >
+    <div class="login-box-container">
+      <div class="container">
+        <h2>{{ buttonText }}</h2>
+      <form #loginForm="ngForm">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required autocomplete="username"
+    [(ngModel)]="username" #usernameInput="ngModel" class="ng-untouched ng-pristine ng-invalid">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required minlength="8" autocomplete="current-password"
+    [(ngModel)]="password" #passwordInput="ngModel" class="ng-untouched ng-pristine ng-invalid">
+    <div *ngIf="passwordInput.invalid && (passwordInput.dirty && passwordInput.touched && emailInput.dirty && emailInput.touched && usernameInput.dirty && usernameInput.touched)">
+      <span  class="error-message" *ngIf="passwordInput.errors && passwordInput.errors['minlength']">Password should be at least 8 characters long.</span>
+    </div>
+  </div>
+  <div id="email-field" [style.display]="showEmailField ? 'block' : 'none'">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" [(ngModel)]="email" required email #emailInput="ngModel"
+         (blur)="emailInput.control.markAsTouched()">
+  <div *ngIf="emailInput.invalid && emailInput.touched">
+    <span class="error-message" *ngIf="emailInput.errors?.['required']">Email is required.</span>
+    <span class="error-message" *ngIf="emailInput.errors?.['email']">Please enter a valid email address.</span>
+  </div>
+    </div>
+  </div>
+  <div class="button-div">
+  <button type="button" (click)="toggleEmailField()" [ngClass]="{'register-button': isDisplayClicked}" class="text-button">{{ display }}</button>
+</div>
+  <input type="submit" (click)="submit()" *ngIf="!isRegisterClicked" [ngClass]="{'submit-button': isRegisterClicked}" value={{buttonText}} [disabled]="usernameInput.invalid || passwordInput.invalid">
+  <input type="submit" (click)="submit()" *ngIf="isRegisterClicked" [ngClass]="{'submit-button': isRegisterClicked}" value={{buttonText}} [disabled]="loginForm.invalid || (isRegisterClicked && (usernameInput.invalid || passwordInput.invalid || emailInput.invalid))">
+</form>
+      </div>
+    </div>
+  </ng-template>
+
   <!--====  End of Home middle section  ====-->
-  <div class="pagination-container">
+  <div class="pagination-container" *ngIf="isLoggedIn" >
     <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
     <span *ngIf="totalPages === 0">Page {{ page + 1 }} of {{ 1 }}</span>
     <span *ngIf="totalPages !== 0">Page {{ page + 1 }} of {{ totalPages }}</span>

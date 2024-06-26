@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -20,6 +20,10 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
  
 import { MatDialogModule } from '@angular/material/dialog';
  
+import { RouterModule, Routes } from '@angular/router';
+import { JwtInterceptor } from './Models/JwtInterceptor';
+
+ 
 
 @NgModule({
   declarations: [
@@ -27,7 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NavbarComponent 
   ],
   imports: [
-    
+   
   
     BrowserModule,
     BrowserAnimationsModule,
@@ -50,7 +54,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'hi-IN' }, // Use 'hi-IN' for Hindi - India locale
+    { provide: MAT_DATE_LOCALE, useValue: 'hi-IN' },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },  // Use 'hi-IN' for Hindi - India locale
     
     provideHttpClient(
       withFetch() 

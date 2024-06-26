@@ -38,15 +38,17 @@ export class DegreeServiceService {
       
   }
 
-  postDegree(masterType:number , value: string, data: AddDegree): Observable<AddDegree> {
-   return  this.http.post<AddDegree>(`http://192.168.21.39:9090/degree/userId/1/masterId/${masterType}/value/${value}`, data);
+  postDegree(masterType:number , value: string, data: AddDegree,userId:number): Observable<AddDegree> {
+   return  this.http.post<AddDegree>(`http://192.168.21.39:9090/degree/userId/${userId}/masterId/${masterType}/value/${value}`, data);
       
   }
-  getListOfConfigForDoc(masterId: number): Observable<any[]> {
-    return this.http.get<any[]>(`http://192.168.21.39:9090/api/mastertypes/3/config`);
-      
+  getListOfConfigForDoc(): Observable<any[]> {
+    if (typeof localStorage !== 'undefined') {
+      return this.http.get<any[]>(`http://192.168.21.39:9090/api/mastertypes/3/config`);
+    } else {
+      return throwError('localStorage is not available');
+    }
   }
-
   postDocument(formData:any):Observable<any>{
    return this.http.post<any>(`http://192.168.21.39:9090/api/documents/upload`,formData)
    
@@ -68,8 +70,7 @@ export class DegreeServiceService {
   }
 
   updateDocument(degreeId: number,formData:any): Observable<any> {
- 
-
+  
     return this.http.put<any>(`http://192.168.21.39:9090/api/documents/${degreeId}/update`, formData)
       .pipe( 
         catchError(error => {
@@ -92,6 +93,14 @@ deletePostUpdateNotes(degreeId: number,data: any):Observable<any>{
  getNoteVersions(degreeId: number,groupId:number): Observable<any[]> {
   return this.http.get<any[]>(`http://192.168.21.39:9090/degreeId/${degreeId}/notes/groupId/${groupId}`);
     
+}
+
+login(loginData: any) {
+  return this.http.post<any>('http://192.168.21.39:9090/api/users/login', loginData);
+}
+
+register(registerData:any){
+  return this.http.post<any>('http://192.168.21.39:9090/api/users', registerData);
 }
   
 
