@@ -21,6 +21,7 @@ import {
 } from '@angular/animations';
  
 import { NgForm } from '@angular/forms';
+import { tap, catchError, of, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -455,7 +456,6 @@ export class AppComponent {
       this.selectedMasterType = 2;
       this.internationalRadioButton.nativeElement.checked = true;
     }
-
     this.degreeService
       .getDocumentByDegreeId(degree.degreeId)
       .subscribe((temp) => {
@@ -483,59 +483,114 @@ export class AppComponent {
     this.saveNotes = [];
     this.notes = [];
     this.editedNotes = [];
-
-    this.getDegreeAndUser();
+    
+   
  
   }
 
   finalArray: any[] = [];
-  documentBaseName: string;
+  
+  
   updateDoc() {
     const temp1 = this.load;
-
-    this.degreeService
-      .updateDegree(
+  
+    let degreeObservable = null;
+    let documentObservable = null;
+    let deleteNotesObservable = null;
+  
+    // Check if degree values have changed
+    const degreeChanged =
+      
+      this.selectedStatus !== this.updateDegree.value ||
+      this.formDataDegree.startDate !== this.updateDegree.startDate ||
+      this.formDataDegree.endDate !== this.updateDegree.endDate ||
+      this.formDataDegree.issueDate !== this.updateDegree.issueDate;
+  
+    // Check if document values have changed
+    const documentChanged =
+      this.documentName !== this.load.docName ||
+      this.selectedFile !== this.load.documentImage ||
+      this.selectedDoc !== this.load.configTable.value ||
+      this.receiveDate !== this.load.receivedDate;
+  
+    // Check if notes have changed
+    this.finalArray = [...this.saveNotes, ...this.notes, ...this.editedNotes];
+    const notesChanged = this.finalArray.length > 0;
+  
+    if (degreeChanged) {
+      degreeObservable = this.degreeService.updateDegree(
         this.degreeId,
         this.selectedMasterType,
         this.selectedStatus,
         this.formDataDegree
-      )
-      .subscribe(
-        (response) => {
-          this.getDegreeAndUser();
+      ).pipe(
+        tap(() => this.resetFormValues()), // Reset form values on success
+        catchError((error) => {
+          console.error('Error updating degree:', error);
+          return of(null); // Return observable of null to continue
+        })
+      );
+    }
+  
+    if (documentChanged) {
+      const formDataDocument: FormData = new FormData();
+      formDataDocument.append('masterId', '3');
+      formDataDocument.append('docName', this.documentName);
+      formDataDocument.append('documentImage', this.selectedFile);
+      formDataDocument.append('value', this.selectedDoc);
+      formDataDocument.append('receiveDate', this.receiveDate);
+  
+      documentObservable = this.degreeService.updateDocument(
+        this.degreeId,
+        formDataDocument
+      ).pipe(
+        catchError((error) => {
+          console.error('Error updating document:', error);
+          return of(null); // Return observable of null to continue
+        })
+      );
+    }
+  
+    if (notesChanged) {
+   
+  
+      deleteNotesObservable = this.degreeService.deletePostUpdateNotes(
+        this.degreeId,
+        this.finalArray
+      ).pipe(
+        tap(() => {
+          this.finalArray = null;
+          this.saveNotes = [];
+          this.notes = [];
+          this.editedNotes = [];
+        }),
+        catchError((error) => {
+          console.error('Error deleting post-update notes:', error);
+          return of(null); // Return observable of null to continue
+        })
+      );
+    }
+  
+    // Combine all observables into a single observable and execute them sequentially
+    if (degreeObservable || documentObservable || deleteNotesObservable) {
+      forkJoin({
+        updateDegree: degreeObservable ? degreeObservable : of(null),
+        updateDocument: documentObservable ? documentObservable : of(null),
+        deleteNotes: deleteNotesObservable ? deleteNotesObservable : of(null)
+      }).subscribe({
+        next: () => {
+          this.getDegreeAndUser(); // Refresh data after successful updates
           this.resetFormValues();
         },
-        (error) => {
-          this.getDegreeAndUser();
+        error: (error) => {
+          console.error('Error during update:', error);
+          this.getDegreeAndUser(); // Refresh data even if there's an error
         }
-      );
-
-    const formDataDocument: FormData = new FormData();
-    formDataDocument.append('masterId', '3');
-    formDataDocument.append('docName', this.documentName);
-    formDataDocument.append('documentImage', this.selectedFile);
-    formDataDocument.append('value', this.selectedDoc);
-    formDataDocument.append('receiveDate', this.receiveDate);
-
-    this.degreeService
-      .updateDocument(this.degreeId, formDataDocument)
-      .subscribe(() => {
-        this.getDegreeAndUser();
-        this.resetFormValues();
       });
-
-    this.finalArray = [...this.saveNotes, ...this.notes, ...this.editedNotes];
-
-    this.degreeService
-      .deletePostUpdateNotes(this.degreeId, this.finalArray)
-      .subscribe((temp) => {
-        this.finalArray = null;
-      });
-    this.saveNotes = [];
-    this.notes = [];
-    this.editedNotes = [];
-
-    this.getDegreeAndUser();
+    } else {
+      // No changes detected, do nothing
+      console.log('No changes detected. API calls skipped.');
+    }
   }
 
 
