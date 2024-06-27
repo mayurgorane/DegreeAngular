@@ -78,7 +78,7 @@ export class AppComponent {
     issueDate: null,
   };
 
-  
+  @ViewChild('loginForm') loginForm!: NgForm;
   getnotes: any = [];
   saveNotes: any[] = [];
   isNoteThere: boolean = false;
@@ -847,7 +847,7 @@ logOut() {
  
 
 }
-@ViewChild('loginForm') loginForm!: NgForm;
+
  
  
 }

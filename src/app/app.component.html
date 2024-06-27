@@ -407,6 +407,7 @@
   </div>
   <!-- modal -->
 
+  
   <ng-template #loginBox >
     <div class="login-box-container">
       <div class="container">
@@ -446,6 +447,9 @@
     </div>
   </ng-template>
 
+
+
+
   <!--====  End of Home middle section  ====-->
   <div class="pagination-container" *ngIf="isLoggedIn" >
     <button (click)="prevPage()" [disabled]="page === 0">Previous</button>
@@ -455,17 +459,10 @@
       Next
     </button>
   </div>
-  <!--=================================
-    =            Main Footer            =
-    ==================================-->
+ 
+<app-footer></app-footer>
 
-  <footer class="ad-footer">
-    <div class="container">
-      <p class="text-center">&copy; 2022 Z Mark. All rights reserved</p>
-    </div>
-  </footer>
 
-  <!--====  End of Main Footer  ====-->
 
   <script src="../assets/js/jquery.min.js"></script>
 

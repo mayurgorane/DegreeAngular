@@ -22,13 +22,16 @@ import { MatDialogModule } from '@angular/material/dialog';
  
 import { RouterModule, Routes } from '@angular/router';
 import { JwtInterceptor } from './Models/JwtInterceptor';
+import { FooterComponent } from './footer/footer.component';
+ 
 
  
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent 
+    NavbarComponent,
+    FooterComponent 
   ],
   imports: [
     BrowserModule,
@@ -48,12 +51,11 @@ import { JwtInterceptor } from './Models/JwtInterceptor';
  
    NgbModule,
    MatDialogModule
-  
-    
+ 
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'hi-IN' },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },  // Use 'hi-IN' for Hindi - India locale
+  
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },   
     
     provideHttpClient(
       withFetch() 

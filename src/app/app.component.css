@@ -96,9 +96,7 @@ body {
   min-height: 100vh;
 }
 
-.ad-footer {
-  margin-top: auto;
-}
+
 .pagination-container {
   display: flex;
   justify-content: center;
